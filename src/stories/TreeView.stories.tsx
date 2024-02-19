@@ -4,7 +4,7 @@ import { Meta, StoryFn } from '@storybook/react';
 import { TreeView } from '..';
 
 export default {
-  title: 'Main/TreeView',
+  title: 'Main/TreeEditor',
   component: TreeView,
   argTypes: {},
 } as Meta<typeof TreeView>;
