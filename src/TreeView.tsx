@@ -1,7 +1,6 @@
-import React from 'react';
-import { Box, Typography } from '@mui/material';
-import { TreeRenderer } from './widgets/catalogview/Main';
-import { TreeControlsBar } from './widgets/controls/Main';
+import { useEffect } from 'react';
+import { Box } from '@mui/material';
+import { LocalFSProjectForm } from './widgets/catalogview/Main';
 
 type TreeViewProps = {
   text?: string;
@@ -9,6 +8,10 @@ type TreeViewProps = {
 
 const TreeView = (props: TreeViewProps) => {
   const { text } = props;
+
+  useEffect(() => {
+    console.log(text);
+  }, []);
 
   return (
     <Box
@@ -19,11 +22,16 @@ const TreeView = (props: TreeViewProps) => {
         height: '100%',
       }}
     >
-      <Typography variant="button" sx={{ flexGrow: 0 }}>
-        TreeView :: {text}
-      </Typography>
-      <TreeControlsBar />
-      <TreeRenderer />
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100%',
+          p: 1,
+        }}
+      >
+        <LocalFSProjectForm onClose={() => {}} />
+      </Box>
     </Box>
   );
 };
