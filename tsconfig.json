@@ -10,6 +10,10 @@
 
     "allowJs": true,
 
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "lib": ["es6", "dom"],
+
     // "allowSyntheticDefaultImports": true,
     // "forceConsistentCasingInFileNames": true,
     // "noFallthroughCasesInSwitch": true,
