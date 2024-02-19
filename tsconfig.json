@@ -6,6 +6,21 @@
     "moduleResolution": "Bundler",
     "skipLibCheck": true,
     "strict": true,
-    "noEmit": true
+    "noEmit": true,
+
+    "allowJs": true,
+
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "lib": ["es6", "dom"],
+
+    // "allowSyntheticDefaultImports": true,
+    // "forceConsistentCasingInFileNames": true,
+    // "noFallthroughCasesInSwitch": true,
+    // "resolveJsonModule": true,
+    // "isolatedModules": true,
+    "strictNullChecks": true
   }
+  // "include": ["./src", "./src/types"],
+  // "files": ["./src/index.ts"]
 }
