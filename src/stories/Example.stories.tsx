@@ -4,7 +4,7 @@ import { Meta, StoryFn } from '@storybook/react';
 import { Example } from '..';
 
 export default {
-  title: 'Example',
+  title: 'Main/Example',
   component: Example,
   argTypes: {},
 } as Meta<typeof Example>;

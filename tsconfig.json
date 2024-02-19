@@ -16,7 +16,7 @@
     // "resolveJsonModule": true,
     // "isolatedModules": true,
     "strictNullChecks": true
-  },
-  "include": ["./src", "./src/types"],
-  "files": ["./src/index.ts"]
+  }
+  // "include": ["./src", "./src/types"],
+  // "files": ["./src/index.ts"]
 }
