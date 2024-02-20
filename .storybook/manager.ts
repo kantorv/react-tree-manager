@@ -2,6 +2,7 @@ import { addons } from '@storybook/manager-api';
 
 addons.setConfig({
   panelPosition: 'right',
+  enableShortcuts: false,
   //selectedPanel: "controls"
 });
 
