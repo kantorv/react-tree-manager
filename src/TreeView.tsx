@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Box } from '@mui/material';
-import { LocalFSProjectForm } from './widgets/catalogview/Main';
+import { LocalFSProjectForm } from './widgets/editor/Main';
 
 type TreeViewProps = {
   text?: string;
