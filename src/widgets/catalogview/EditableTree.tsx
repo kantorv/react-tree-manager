@@ -1,4 +1,3 @@
-/* eslint-disable */
 import * as React from 'react';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -13,14 +12,7 @@ import ArticleIcon from '@mui/icons-material/Article';
 import FolderIcon from '@mui/icons-material/Folder';
 import { type TreeNode } from '../../types/lib.types';
 
-// https://stackoverflow.com/a/2117523/592737
-const uuidv4 = () =>
-  '10000000-1000-4000-8000-100000000000'.replace(/[018]/g, (c: any) =>
-    (
-      c ^
-      (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
-    ).toString(16)
-  ) as string;
+import { uuidv4 } from '../../helpers/utils';
 
 type EditableTreeProps = {
   data: TreeNode[];
@@ -84,6 +76,7 @@ const CollapsibleBlock = ({
 const EditableTree = (props: EditableTreeProps) => {
   const { data, setActiveDoc, expanded, selected, setSelected } = props;
 
+  /* eslint-disable-next-line  no-underscore-dangle,prettier/prettier */
   const _id = uuidv4();
 
   return (
