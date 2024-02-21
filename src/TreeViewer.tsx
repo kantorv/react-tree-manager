@@ -20,6 +20,7 @@ const TreeViewerComponent = (props: TreeViewerProps) => {
         flexDirection: 'column',
         background: 'wheat',
         height: '100%',
+        maxWidth: 400,
       }}
     >
       <Box
@@ -27,6 +28,7 @@ const TreeViewerComponent = (props: TreeViewerProps) => {
           display: 'flex',
           flexDirection: 'column',
           height: '100%',
+
           p: 1,
         }}
       >

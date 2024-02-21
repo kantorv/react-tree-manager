@@ -90,7 +90,7 @@ const RecursivePPTreeList = (props: {
           {item.children?.length ? (
             <RecursiveExpandableListItem
               primary={item.path.split('/').pop() || 'empty'}
-              secondary={item.path}
+              // secondary={item.path}
               depth={depth}
               expanded={expanded}
             >
