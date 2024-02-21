@@ -15,4 +15,19 @@ type TreeUiSettings = {
   view_mode: TreeViewMode;
 };
 
-export type { TreeNode, TreeSortOptions, TreeUiSettings, TreeViewMode };
+interface TreeContentItem {
+  mode: string;
+  path: string;
+  sha: string;
+  size?: number;
+  type: 'blob' | 'tree';
+  url: string;
+}
+
+export type {
+  TreeNode,
+  TreeSortOptions,
+  TreeUiSettings,
+  TreeViewMode,
+  TreeContentItem,
+};
