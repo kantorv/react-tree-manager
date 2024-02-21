@@ -1,4 +1,3 @@
-/* eslint-disable */
 import * as React from 'react';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -7,59 +6,47 @@ import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-// import type { TreeViewMode, TreeNode }
-
 import ArticleIcon from '@mui/icons-material/Article';
 import FolderIcon from '@mui/icons-material/Folder';
-import { type TreeNode } from '../../types/lib.types';
+import type { TreeNode } from '../../types/lib.types';
+import { uuidv4 } from '../../helpers/utils';
 
-// https://stackoverflow.com/a/2117523/592737
-const uuidv4 = () =>
-  '10000000-1000-4000-8000-100000000000'.replace(/[018]/g, (c: any) =>
-    (
-      c ^
-      (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
-    ).toString(16)
-  ) as string;
-
-type EditableTreeProps = {
+type WideRecursiveListProps = {
   data: TreeNode[];
   expanded: boolean;
-  selected: string;
   setActiveDoc: (path: string) => void;
-  setSelected: (s: string) => void;
 };
+
+// const ItemButton = ({ text }: { text: string }) => (
+//   <ListItemButton divider>
+//     <ListItemIcon>
+//       <ArticleIcon />
+//     </ListItemIcon>
+//     <ListItemText primary={text} />
+//   </ListItemButton>
+// );
 
 type CollapsibleBlockProps = {
   children?: React.ReactNode;
   expanded: boolean;
-  path: string;
-  selected: string;
-  setSelected: (s: string) => void;
+  text: string;
 };
 const CollapsibleBlock = ({
   children,
-  path,
+  text,
   expanded,
-  selected,
-  setSelected,
 }: CollapsibleBlockProps) => {
   const [open, setOpen] = React.useState(expanded);
   const handleClick = () => {
     setOpen(!open);
-    setSelected(path);
   };
   return (
     <>
-      <ListItemButton
-        onClick={handleClick}
-        divider
-        selected={path === selected}
-      >
+      <ListItemButton onClick={handleClick} divider>
         <ListItemIcon>
           <FolderIcon />
         </ListItemIcon>
-        <ListItemText primary={path.split('/').pop()} />
+        <ListItemText primary={text} />
         {open ? (
           <ExpandMore fontSize="small" />
         ) : (
@@ -81,16 +68,16 @@ const CollapsibleBlock = ({
   );
 };
 
-const EditableTree = (props: EditableTreeProps) => {
-  const { data, setActiveDoc, expanded, selected, setSelected } = props;
+const WideRecursiveList = (props: WideRecursiveListProps) => {
+  const { data, setActiveDoc, expanded } = props;
 
-  const _id = uuidv4();
+  // const _id = uuidv4();
 
   return (
     <List
       sx={{ width: '100%', bgcolor: 'background.paper' }}
       component="nav"
-      aria-labelledby={`nested-list-subheader-${_id}`}
+      // aria-labelledby={`nested-list-subheader-${_id}`}
       // subheader={
       //     <ListSubheader component="div" id={`nested-list-subheader-${_id}`}>
       //         Nested List Items
@@ -99,27 +86,19 @@ const EditableTree = (props: EditableTreeProps) => {
     >
       {data.map((item) => (
         <React.Fragment key={uuidv4()}>
-          {item.type === 'tree' ? (
+          {item.children?.length ? (
             <CollapsibleBlock
-              path={item.path}
+              text={item.path.split('/').pop() || 'empty'}
               expanded={expanded}
-              selected={selected}
-              setSelected={setSelected}
             >
-              <EditableTree
-                data={item.children ?? []}
+              <WideRecursiveList
+                data={item.children}
                 expanded={expanded}
                 setActiveDoc={setActiveDoc}
-                selected={selected}
-                setSelected={setSelected}
               />
             </CollapsibleBlock>
           ) : (
-            <ListItemButton
-              divider
-              onClick={() => setSelected(item.path)}
-              selected={item.path === selected}
-            >
+            <ListItemButton divider onClick={() => setActiveDoc(item.path)}>
               <ListItemIcon>
                 <ArticleIcon />
               </ListItemIcon>
@@ -132,4 +111,4 @@ const EditableTree = (props: EditableTreeProps) => {
   );
 };
 
-export { EditableTree };
+export { WideRecursiveList };

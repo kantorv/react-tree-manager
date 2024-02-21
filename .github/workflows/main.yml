@@ -14,7 +14,7 @@ on:
       - 'feature/*'
       - 'hotfix/*'
     tags:
-      - 'v*'
+      - '*'
 
 jobs:
   run-ci:

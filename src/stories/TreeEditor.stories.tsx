@@ -1,15 +1,15 @@
 import React from 'react';
 import { Meta, StoryFn } from '@storybook/react';
 
-import { TreeView } from '..';
+import { TreeEditor } from '..';
 
 export default {
-  title: 'Main/TreeView',
-  component: TreeView,
+  title: 'Editor/Main',
+  component: TreeEditor,
   argTypes: {},
-} as Meta<typeof TreeView>;
+} as Meta<typeof TreeEditor>;
 
-const Template: StoryFn<typeof TreeView> = (args) => <TreeView {...args} />;
+const Template: StoryFn<typeof TreeEditor> = (args) => <TreeEditor {...args} />;
 
 export const Primary = Template.bind({});
 
