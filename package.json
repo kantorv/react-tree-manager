@@ -3,6 +3,21 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "@chromatic-com/storybook": "^1.7.0",
+    "@emotion/react": "^11.13.0",
+    "@emotion/styled": "^11.13.0",
+    "@fontsource/roboto": "^5.0.14",
+    "@mui/icons-material": "^5.16.7",
+    "@mui/material": "^5.16.7",
+    "@storybook/addon-essentials": "^8.2.9",
+    "@storybook/addon-interactions": "^8.2.9",
+    "@storybook/addon-links": "^8.2.9",
+    "@storybook/addon-onboarding": "^8.2.9",
+    "@storybook/addon-webpack5-compiler-swc": "^1.0.5",
+    "@storybook/blocks": "^8.2.9",
+    "@storybook/react": "^8.2.9",
+    "@storybook/react-webpack5": "^8.2.9",
+    "@storybook/test": "^8.2.9",
     "@testing-library/jest-dom": "^6.4.8",
     "@testing-library/react": "^15.0.0",
     "@testing-library/user-event": "^14.5.2",
@@ -10,17 +25,14 @@
     "@types/node": "^22.5.0",
     "@types/react": "^18.3.4",
     "@types/react-dom": "^18.3.0",
+    "@xstate/react": "^4.1.1",
+    "eslint-plugin-storybook": "^0.8.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-scripts": "5.0.1",
+    "storybook": "^8.2.9",
     "typescript": "^5.5.4",
     "web-vitals": "^4.2.3",
-    "@emotion/react": "^11.13.0",
-    "@emotion/styled": "^11.13.0",
-    "@fontsource/roboto": "^5.0.14",
-    "@mui/icons-material": "^5.16.7",
-    "@mui/material": "^5.16.7",
-    "@xstate/react": "^4.1.1",
     "xstate": "5.17.1"
   },
   "peerDependencies": {
@@ -28,12 +40,15 @@
     "react-dom": ">=18"
   },
   "scripts": {
-    "test": "react-scripts test"
+    "test": "react-scripts test",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
-      "react-app/jest"
+      "react-app/jest",
+      "plugin:storybook/recommended"
     ]
   },
   "browserslist": {
