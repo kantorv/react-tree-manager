@@ -2,13 +2,15 @@
   "name": "react-tree-manager",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
+  "main": "./build/index.js",
+  "module": "./build/index.es.js",
+  "types": "./build/index.d.ts",
+  "files": [
+    "build"
+  ],
+  "devDependencies": {
+    "@babel/types": "^7.25.4",
     "@chromatic-com/storybook": "^1.7.0",
-    "@emotion/react": "^11.13.0",
-    "@emotion/styled": "^11.13.0",
-    "@fontsource/roboto": "^5.0.14",
-    "@mui/icons-material": "^5.16.7",
-    "@mui/material": "^5.16.7",
     "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^11.1.6",
@@ -30,7 +32,6 @@
     "@types/node": "^22.5.0",
     "@types/react": "^18.3.4",
     "@types/react-dom": "^18.3.0",
-    "@xstate/react": "^4.1.1",
     "eslint-plugin-storybook": "^0.8.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -40,7 +41,15 @@
     "rollup-plugin-postcss": "^4.0.2",
     "storybook": "^8.2.9",
     "typescript": "^5.5.4",
-    "web-vitals": "^4.2.3",
+    "web-vitals": "^4.2.3"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.13.0",
+    "@emotion/styled": "^11.13.0",
+    "@fontsource/roboto": "^5.0.14",
+    "@mui/icons-material": "^5.16.7",
+    "@mui/material": "^5.16.7",
+    "@xstate/react": "^4.1.1",
     "xstate": "5.17.1"
   },
   "peerDependencies": {
@@ -59,6 +68,9 @@
       "react-app/jest",
       "plugin:storybook/recommended"
     ]
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
   },
   "browserslist": {
     "production": [

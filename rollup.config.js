@@ -5,12 +5,12 @@ import typescript from "@rollup/plugin-typescript";
 import postcss    from "rollup-plugin-postcss";
 import url        from '@rollup/plugin-url'
 import svgr       from '@svgr/rollup'
-//import dts        from 'rollup-plugin-dts'
+import dts        from 'rollup-plugin-dts'
 
 import packageJson from "./package.json";
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default{
+export default [{
   input: "./src/index.ts",
   output: [
     {
@@ -33,4 +33,10 @@ export default{
     url(),
     svgr(),
   ]
+},
+{
+  input: './build/dts/index.d.ts',
+  output: [{ file: 'build/index.d.ts', format: 'es' }],
+  plugins: [dts()],
 }
+];
