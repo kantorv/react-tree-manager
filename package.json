@@ -14,9 +14,7 @@
     "react-dom": "^18.3.1",
     "react-scripts": "5.0.1",
     "typescript": "^5.5.4",
-    "web-vitals": "^4.2.3"
-  },
-  "dependencies": {
+    "web-vitals": "^4.2.3",
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
     "@fontsource/roboto": "^5.0.14",
@@ -25,11 +23,12 @@
     "@xstate/react": "^4.1.1",
     "xstate": "5.17.1"
   },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test": "react-scripts test"
   },
   "eslintConfig": {
     "extends": [
