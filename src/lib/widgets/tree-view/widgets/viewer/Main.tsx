@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { ProjectExplorer } from './ProjectExplorer';
 import type { TreeNode } from '../../types/lib.types';
 

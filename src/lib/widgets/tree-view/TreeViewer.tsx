@@ -1,12 +1,13 @@
+import * as React from 'react';
 import { useEffect } from 'react';
 import { Box } from '@mui/material';
-import { LocalFSProjectForm } from "./tree-view/widgets/editor/Main"
+import { TreeViewer } from   "./widgets/viewer/Main"
 
-type TreeEditorProps = {
+type TreeViewerProps = {
   text?: string;
 };
 
-const TreeEditor = (props: TreeEditorProps) => {
+const TreeViewerComponent = (props: TreeViewerProps) => {
   const { text } = props;
 
   useEffect(() => {
@@ -20,6 +21,7 @@ const TreeEditor = (props: TreeEditorProps) => {
         flexDirection: 'column',
         background: 'wheat',
         height: '100%',
+        maxWidth: 400,
       }}
     >
       <Box
@@ -27,13 +29,14 @@ const TreeEditor = (props: TreeEditorProps) => {
           display: 'flex',
           flexDirection: 'column',
           height: '100%',
+
           p: 1,
         }}
       >
-        <LocalFSProjectForm onClose={() => {}} />
+        <TreeViewer />
       </Box>
     </Box>
   );
 };
 
-export { TreeEditor };
+export { TreeViewerComponent };
