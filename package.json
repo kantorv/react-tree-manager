@@ -1,7 +1,7 @@
 {
   "name": "react-tree-manager",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "main": "./build/index.js",
   "module": "./build/index.es.js",
   "types": "./build/index.d.ts",
@@ -10,7 +10,6 @@
   ],
   "devDependencies": {
     "@babel/types": "^7.25.4",
-    "@chromatic-com/storybook": "^1.7.0",
     "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^11.1.6",

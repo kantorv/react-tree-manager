@@ -1,1 +1,1 @@
-export  { default as ErrorAlert } from "./lib/alerts/ErrorAlert";
+export  { default as ErrorAlert } from "./lib/components/alerts/ErrorAlert";
