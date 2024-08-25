@@ -87,18 +87,4 @@ describe('TreeComponent', () => {
     const wrapperElement = screen.getByTestId('tree-component-wrapper')
     expect(wrapperElement).toBeInTheDocument();
   });
-
-  // test('calls the onClick function when clicked', () => {
-  //   const handleClick = jest.fn();
-  //   render(<TreeViewComponent tree={sample3} />);
-    
-  //   // Get the button element
-  //   const buttonElement = screen.getByText('Click Me');
-    
-  //   // Simulate a click event
-  //   fireEvent.click(buttonElement);
-    
-  //   // Check if the click handler was called
-  //   expect(handleClick).toHaveBeenCalledTimes(1);
-  // });
 });
