@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from "@storybook/react";
 import { Box } from "@mui/material";
-import { TreeViewerNext, type TreeNode } from "..";
+import { TreeViewerNext } from "..";
 
 
 const sample3: TreeNode[] = [

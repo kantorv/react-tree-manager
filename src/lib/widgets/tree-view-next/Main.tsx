@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { ProjectExplorer } from './ProjectExplorer';
-import type { TreeNode } from '../../types/lib.types';
+import { TreeViewComponent } from './TreeViewComponent'
+
 
 const sample3: TreeNode[] = [
   {
@@ -75,6 +75,6 @@ const sample3: TreeNode[] = [
   },
 ];
 
-const TreeViewer = () => <ProjectExplorer tree={sample3} />;
+const TreeViewer = () => <TreeViewComponent tree={sample3} />;
 
 export { TreeViewer };
