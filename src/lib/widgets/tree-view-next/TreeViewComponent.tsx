@@ -10,6 +10,7 @@ type TreeViewComponentProps = {
 
  const TreeViewComponent = (props:TreeViewComponentProps)=> (
 	<Box
+     data-testid="tree-component-wrapper"
       sx={{
         display: 'flex',
         flexDirection: 'column',

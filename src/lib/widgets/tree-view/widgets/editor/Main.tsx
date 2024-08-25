@@ -12,7 +12,7 @@ import { TreeManager } from '../../service/treemgmt';
 type LocalFSProjectFormProps = {
   onClose: () => void;
 };
- 
+
 
 const sample = [
   {
@@ -155,7 +155,7 @@ const sample = [
     ],
   },
 ];
- 
+
 const sample2 = [
   {
     type: 'blob',
