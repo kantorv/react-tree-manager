@@ -133,12 +133,12 @@ function findNodeReduce(tree: TreeNode[], path: string): TreeNode | undefined {
       !currentNode
         ? tree.find((node) => node.path === part)
         : // If currentNode has children, find in its children
-          currentNode.children
+        currentNode.children
           ? currentNode.children.find(
-              (node) => node.path === `${currentNode.path}/${part}`
-            )
+            (node) => node.path === `${currentNode.path}/${part}`
+          )
           : // If currentNode has no children, return undefined
-            undefined,
+          undefined,
     undefined
   );
 }
@@ -154,10 +154,32 @@ class TreeManager {
     this.tree = tree ?? [];
   }
 
-  // Methods (encapsulate behavior)
-  public traverse(): void {
-    traverseTree(this.tree);
+
+
+  /**
+    * Depth-first traversal of the tree.
+    * @param callback Function to be called on each node.
+    */
+  public traverse(callback: (node: TreeNode) => void): void {
+    const depthFirst = (node: TreeNode): void => {
+      // Execute the callback on the current node
+      callback(node);
+
+      // Recursively traverse the children if they exist
+      if (node.children) {
+        for (const child of node.children) {
+          depthFirst(child);
+        }
+      }
+    };
+
+    // Start traversal from each root node in the tree
+    for (const rootNode of this.tree) {
+      depthFirst(rootNode);
+    }
   }
+
+
 
   public get_folders(tree: TreeNode[]): string[] {
     return getFolders(tree) || [];
@@ -204,239 +226,8 @@ export { TreeManager };
 type ExtractInstanceType<T> = T extends new (...args: any[]) => infer R
   ? R
   : T extends { prototype: infer P }
-    ? P
-    : any;
+  ? P
+  : any;
 type TreeManagerInstance = ExtractInstanceType<typeof TreeManager>;
 
 export type { TreeManagerInstance };
-
-
-
-
-
-
-//####### ############ sample data
-
-const sample = [
-  {
-    type: 'blob',
-    path: '/md/markdown-sample-ghview.md',
-  },
-  {
-    type: 'tree',
-    path: 'somefolder',
-    children: [
-      {
-        type: 'blob',
-        path: '/md/sample.md',
-      },
-      {
-        type: 'blob',
-        path: '/md/highlight.js.md',
-      },
-      {
-        type: 'tree',
-        path: 'test665',
-        children: [
-          {
-            type: 'blob',
-            path: '/md/tf-helm-index.html.markdown',
-          },
-          {
-            type: 'blob',
-            path: 'https://raw.githubusercontent.com/bevacqua/es6/master/readme.markdown',
-          },
-          {
-            type: 'tree',
-            path: 'yooo66',
-            children: [
-              {
-                type: 'blob',
-                path: '/md/highlight5.js.md',
-              },
-              {
-                type: 'blob',
-                path: '/md/sample7.md',
-              },
-              {
-                type: 'blob',
-                path: '/md/highlight6.js.md',
-              },
-            ],
-          },
-          {
-            type: 'blob',
-            path: '/md/highlight2.js.md',
-          },
-          {
-            type: 'blob',
-            path: '/md/sample2.md',
-          },
-          {
-            type: 'blob',
-            path: '/md/highlight3.js.md',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    type: 'tree',
-    path: 'otherfolder',
-    children: [
-      {
-        type: 'blob',
-        path: '/md/tf-helm-index.html.markdown',
-      },
-      {
-        type: 'blob',
-        path: 'https://raw.githubusercontent.com/bevacqua/es6/master/readme.markdown',
-      },
-    ],
-  },
-  {
-    type: 'tree',
-    path: 'folder5',
-    children: [
-      {
-        type: 'blob',
-        path: '/md/sample2.md',
-      },
-
-      {
-        type: 'blob',
-        path: '/md/sample5.md',
-      },
-      {
-        type: 'blob',
-        path: '/md/highlight5.js.md',
-      },
-      {
-        type: 'tree',
-        path: 'folder10',
-        children: [
-          {
-            type: 'blob',
-            path: '/md/tf-helm-index.html.markdown',
-          },
-          {
-            type: 'blob',
-            path: 'https://raw.githubusercontent.com/bevacqua/es6/master/readme.markdown',
-          },
-          {
-            type: 'tree',
-            path: 'hello55',
-            children: [
-              {
-                type: 'blob',
-                path: '/md/highlight5.js.md',
-              },
-              {
-                type: 'blob',
-                path: '/md/sample7.md',
-              },
-              {
-                type: 'blob',
-                path: '/md/highlight6.js.md',
-              },
-            ],
-          },
-          {
-            type: 'blob',
-            path: '/md/highlight2.js.md',
-          },
-          {
-            type: 'blob',
-            path: '/md/sample2.md',
-          },
-          {
-            type: 'blob',
-            path: '/md/highlight3.js.md',
-          },
-        ],
-      },
-    ],
-  },
-];
-
-const sample2 = [
-  {
-    type: 'blob',
-    path: '/md/markdown-sample-ghview.md',
-  },
-  {
-    type: 'tree',
-    path: 'somefolder',
-    children: [
-      {
-        type: 'blob',
-        path: '/md/sample.md',
-      },
-      {
-        type: 'blob',
-        path: '/md/highlight.js.md',
-      },
-    ],
-  },
-  {
-    type: 'tree',
-    path: 'otherfolder',
-    children: [
-      {
-        type: 'blob',
-        path: '/md/tf-helm-index.html.markdown',
-      },
-      {
-        type: 'tree',
-        path: 'inner',
-        children: [
-          {
-            type: 'blob',
-            path: 'somefile.markdown',
-          },
-        ],
-      },
-    ],
-  },
-];
-
-const sample3: TreeNode[] = [
-  {
-    type: 'blob',
-    path: 'q.md',
-  },
-  {
-    type: 'tree',
-    path: 'a',
-    children: [
-      {
-        type: 'blob',
-        path: 'a/h.md',
-      },
-      {
-        type: 'tree',
-        path: 'a/b',
-        children: [
-          {
-            type: 'blob',
-            path: 'a/b/k.md',
-          },
-          {
-            type: 'tree',
-            path: 'a/b/c',
-            children: [
-              {
-                type: 'blob',
-                path: 'a/b/c/y.md',
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  },
-];
-
-
-
-export {sample as treedatasample, sample2 as treedatasample2, sample3 as treedatasample3 }
