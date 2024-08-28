@@ -4,7 +4,7 @@ import { ExpandMore, KeyboardArrowRight as KeyboardArrowRightIcon, Article as Ar
 import { uuidv4 } from './helpers/utils';
 
 type WideRecursiveListProps = {
-  data: TreeNode[];
+  folder: TreeNode[];
   expanded: boolean;
   setActiveDoc: (path: string) => void;
 };
@@ -107,7 +107,7 @@ const LeafItem = (props: LeafItemProps) => {
 
 
 const WideRecursiveList = (props: WideRecursiveListProps) => {
-  const { data, setActiveDoc, expanded } = props;
+  const { folder, setActiveDoc, expanded } = props;
 
   const _id = uuidv4();
 
@@ -115,6 +115,8 @@ const WideRecursiveList = (props: WideRecursiveListProps) => {
     <List
       sx={{ width: '100%', bgcolor: 'background.paper' }}
       component="nav"
+
+      // TODO: parametrize header display and text, may be as optional extrenal component
       // aria-labelledby={`nested-list-subheader-${_id}`}
       // subheader={
       //   <ListSubheader component="div" id={`nested-list-subheader-${_id}`}>
@@ -122,7 +124,7 @@ const WideRecursiveList = (props: WideRecursiveListProps) => {
       //   </ListSubheader>
       // }
     >
-      {data.map((item) => (
+      {folder.map((item) => (
         <React.Fragment key={uuidv4()}>
           {item.children?.length ? (
             <CollapsibleBlock
@@ -130,7 +132,7 @@ const WideRecursiveList = (props: WideRecursiveListProps) => {
               expanded={expanded}
             >
               <WideRecursiveList
-                data={item.children}
+                folder={item.children}
                 expanded={expanded}
                 setActiveDoc={setActiveDoc}
               />

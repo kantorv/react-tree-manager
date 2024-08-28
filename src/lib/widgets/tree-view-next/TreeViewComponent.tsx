@@ -31,23 +31,6 @@ type TreeViewComponentProps = {
 
   }, [props.tree]);
 
-   
-  // const tmgmt = new TreeManager([]);
-
-  // const updateTree = (tree: TreeNode[]): void => {
-  //   const normalized_tree = tmgmt.normalize_path(tree);
-  //   // tmgmt.traverse()
-  //   setTreeData(normalized_tree);
-  // };
-
-  // useEffect(() => {
-  //   updateTree(treedatasample3);
-  // }, []);
-
-  // useEffect(() => {
-  //   console.log('[LocalFSProjectForm.useEffect] tree updated', treeData);
-  // }, [treeData]);
-
 
   return  (
     <Box
@@ -71,7 +54,7 @@ type TreeViewComponentProps = {
             p: 1,
           }}
         >
-            <WideRecursiveList setActiveDoc={setActiveDoc} data={props.tree} expanded />
+            <WideRecursiveList setActiveDoc={setActiveDoc} folder={props.tree} expanded />
         </Box>
       </Box>
   )
