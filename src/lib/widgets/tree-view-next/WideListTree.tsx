@@ -1,13 +1,6 @@
 import * as React from 'react';
-import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Collapse from '@mui/material/Collapse';
-import ExpandMore from '@mui/icons-material/ExpandMore';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import ArticleIcon from '@mui/icons-material/Article';
-import FolderIcon from '@mui/icons-material/Folder';
+import { List, ListSubheader, ListItemText, ListItemIcon, ListItemButton, Collapse } from '@mui/material'
+import { ExpandMore, KeyboardArrowRight as KeyboardArrowRightIcon, Article as ArticleIcon, Folder as FolderIcon } from '@mui/icons-material'
 import { uuidv4 } from './helpers/utils';
 
 type WideRecursiveListProps = {
@@ -16,44 +9,60 @@ type WideRecursiveListProps = {
   setActiveDoc: (path: string) => void;
 };
 
-// const ItemButton = ({ text }: { text: string }) => (
-//   <ListItemButton divider>
-//     <ListItemIcon>
-//       <ArticleIcon />
-//     </ListItemIcon>
-//     <ListItemText primary={text} />
-//   </ListItemButton>
-// );
+
+
+
+type TreeItemProps = {
+  onClick: (path: string) => void,
+  node: TreeNode,
+  expanded: boolean
+}
+
+
+const TreeItem = (props: TreeItemProps) => {
+  const { node, onClick, expanded } = props
+  const text = node.path.split('/').pop() || 'empty'
+  return (
+    <ListItemButton onClick={() => onClick(node.path)} divider>
+      <ListItemIcon>
+        <FolderIcon />
+      </ListItemIcon>
+      <ListItemText primary={text} />
+      {expanded ? (
+        <ExpandMore fontSize="small" />
+      ) : (
+        <KeyboardArrowRightIcon fontSize="small" />
+      )}
+    </ListItemButton>
+  )
+}
+
+
+
+
 
 type CollapsibleBlockProps = {
   children?: React.ReactNode;
   expanded: boolean;
-  text: string;
+  node: TreeNode;
 };
-
-
-const CollapsibleBlock = ({
-  children,
-  text,
-  expanded,
-}: CollapsibleBlockProps) => {
+const CollapsibleBlock = (props: CollapsibleBlockProps) => {
+  const {
+    children,
+    node,
+    expanded,
+  } = props
+  
   const [open, setOpen] = React.useState(expanded);
   const handleClick = () => {
     setOpen(!open);
   };
+
+
+
   return (
     <>
-      <ListItemButton onClick={handleClick} divider>
-        <ListItemIcon>
-          <FolderIcon />
-        </ListItemIcon>
-        <ListItemText primary={text} />
-        {open ? (
-          <ExpandMore fontSize="small" />
-        ) : (
-          <KeyboardArrowRightIcon fontSize="small" />
-        )}
-      </ListItemButton>
+      <TreeItem  expanded={open} node={node} onClick={handleClick} />
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List
           component="div"
@@ -69,10 +78,38 @@ const CollapsibleBlock = ({
   );
 };
 
+
+
+
+type LeafItemProps = {
+  onClick: (path: string) => void,
+  node: TreeNode,
+}
+
+
+const LeafItem = (props: LeafItemProps) => {
+
+  const { node, onClick } = props
+  const path = node.path
+  const itemText = path.split('/').pop()
+
+  return (
+    <ListItemButton divider onClick={() => onClick(path)}>
+      <ListItemIcon>
+        <ArticleIcon />
+      </ListItemIcon>
+      <ListItemText primary={itemText} />
+    </ListItemButton>
+  )
+}
+
+
+
+
 const WideRecursiveList = (props: WideRecursiveListProps) => {
   const { data, setActiveDoc, expanded } = props;
 
-  // const _id = uuidv4();
+  const _id = uuidv4();
 
   return (
     <List
@@ -80,16 +117,16 @@ const WideRecursiveList = (props: WideRecursiveListProps) => {
       component="nav"
       // aria-labelledby={`nested-list-subheader-${_id}`}
       // subheader={
-      //     <ListSubheader component="div" id={`nested-list-subheader-${_id}`}>
-      //         Nested List Items
-      //     </ListSubheader>
+      //   <ListSubheader component="div" id={`nested-list-subheader-${_id}`}>
+      //     Nested List Items
+      //   </ListSubheader>
       // }
     >
       {data.map((item) => (
         <React.Fragment key={uuidv4()}>
           {item.children?.length ? (
             <CollapsibleBlock
-              text={item.path.split('/').pop() || 'empty'}
+              node={item} // emtpty for typesafe, but normally should not appear
               expanded={expanded}
             >
               <WideRecursiveList
@@ -99,12 +136,7 @@ const WideRecursiveList = (props: WideRecursiveListProps) => {
               />
             </CollapsibleBlock>
           ) : (
-            <ListItemButton divider onClick={() => setActiveDoc(item.path)}>
-              <ListItemIcon>
-                <ArticleIcon />
-              </ListItemIcon>
-              <ListItemText primary={item.path.split('/').pop()} />
-            </ListItemButton>
+            <LeafItem node={item} onClick={setActiveDoc} />
           )}
         </React.Fragment>
       ))}
