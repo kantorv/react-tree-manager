@@ -1,20 +1,3 @@
-
-
-function traverseTree(nodes: TreeNode[]): void {
-  // const nodes: TreeNode[] = [tree];
-  let currentNode: TreeNode | undefined;
-
-  while ((currentNode = nodes.pop())) {
-    console.log(
-      `[TreeManager.traverseTree] ${currentNode.type} -- ${currentNode.path}`
-    ); // Process current node
-    // if (currentNode.type === 'blob') console.log(currentNode.path)
-    for (const child of currentNode.children || []) {
-      nodes.unshift(child);
-    }
-  }
-}
-
 function getFolders(
   nodes: TreeNode[],
   parent_path: string = '',
