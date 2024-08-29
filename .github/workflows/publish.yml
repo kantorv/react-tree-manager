@@ -43,4 +43,4 @@ jobs:
           yarn build
           npm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.YOUR_NPM_AUTH_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
