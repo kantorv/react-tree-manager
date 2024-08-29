@@ -30,20 +30,5 @@ function getFilePathWithoutFilename(fullPath: string): string {
   return match ? match[1] : '/';
 }
 
-function traverseTree(tree: TreeNode): Array<string> {
-  const nodes: TreeNode[] = [tree];
-  let currentNode: TreeNode | undefined;
-  const output = [];
 
-  while ((currentNode = nodes.pop())) {
-    //  console.log(`${currentNode.type}/${currentNode.path}`); // Process current node
-    if (currentNode.type === 'blob') output.push(currentNode.path);
-    for (const child of currentNode.children ?? []) {
-      nodes.push(child);
-    }
-  }
-
-  return output;
-}
-
-export { getFilePathWithoutFilename, traverseTree };
+export { getFilePathWithoutFilename };

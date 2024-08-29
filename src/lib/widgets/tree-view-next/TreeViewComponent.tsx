@@ -16,7 +16,7 @@ type TreeViewComponentProps = {
  const TreeViewComponent = (props:TreeViewComponentProps)=> {
 
   // const [treeData, setTreeData] = useState<TreeNode[]>([]);
-  const setActiveDoc = (path: string) =>  console.log('LocalFSProjectForm.setActiveDoc called', path);
+  const onSelect = (node: TreeNode) =>  console.log('TreeViewComponent.onSelect called', node.path);
   const treeManager = new TreeManager(props.tree);
 
 
@@ -52,7 +52,7 @@ type TreeViewComponentProps = {
             p: 1,
           }}
         >
-            <WideRecursiveList onSelect={setActiveDoc} folder={props.tree} expanded />
+            <WideRecursiveList onSelect={onSelect} folder={props.tree} expanded={false} />
         </Box>
       </Box>
   )

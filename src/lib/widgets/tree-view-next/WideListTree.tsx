@@ -4,18 +4,18 @@ import { ExpandMore, KeyboardArrowRight as KeyboardArrowRightIcon, Article as Ar
 import { uuidv4 } from './helpers/utils';
 
 type LeafItemProps = {
-  onClick: (path: string) => void,
+  onSelect: (node: TreeNode) => void, // TODO: check if node_id is better
   node: TreeNode,
 }
 
 
 const LeafItem = (props: LeafItemProps) => {
-  const { node, onClick } = props
+  const { node, onSelect } = props
   const path = node.path
   const itemText = path.split('/').pop()
 
   return (
-    <ListItemButton divider onClick={() => onClick(path)}>
+    <ListItemButton divider onClick={() => onSelect(node)}> 
       <ListItemIcon>
         <ArticleIcon />
       </ListItemIcon>
@@ -88,7 +88,7 @@ const TreeItem = (props: TreeItemProps) => {
 type WideRecursiveListProps = {
   folder: TreeNode[];
   expanded: boolean;
-  onSelect: (path: string) => void;
+  onSelect: (node: TreeNode) => void;
 }; 
 
 
@@ -110,21 +110,21 @@ const WideRecursiveList = (props: WideRecursiveListProps) => {
       //   </ListSubheader>
       // }
     >
-      {folder.map((item) => (
+      {folder.map((node) => (
         <React.Fragment key={uuidv4()}>
-          {item.children?.length ? (
+          {node.children?.length ? (
             <TreeItem
-              node={item} // emtpty for typesafe, but normally should not appear
+              node={node} // emtpty for typesafe, but normally should not appear
               expanded={expanded}
             >
               <WideRecursiveList
-                folder={item.children}
+                folder={node.children}
                 expanded={expanded}
                 onSelect={onSelect}
               />
             </TreeItem>
           ) : (
-            <LeafItem node={item} onClick={onSelect} />
+            <LeafItem node={node} onSelect={onSelect} />
           )}
         </React.Fragment>
       ))}
