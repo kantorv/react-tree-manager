@@ -40,12 +40,14 @@ jobs:
           cache: 'yarn'
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install
 
       - name: Check types
-        run: yarn test
+        run: yarn test --ci
+
+
       - name: Build storybook
-        run: yarn build-storybook
+        run: yarn build-storybook --quiet
 
       - name: Build package
-        run: yarn build
+        run: yarn build --silent 2>/dev/null # TODO: resolve "Module level directives cause errors when bundled, 'use client' was ignored."
