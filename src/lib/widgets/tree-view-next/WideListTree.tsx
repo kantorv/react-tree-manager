@@ -3,23 +3,34 @@ import { List, ListSubheader, ListItemText, ListItemIcon, ListItemButton, Collap
 import { ExpandMore, KeyboardArrowRight as KeyboardArrowRightIcon, Article as ArticleIcon, Folder as FolderIcon } from '@mui/icons-material'
 import { uuidv4 } from './helpers/utils';
 
-type WideRecursiveListProps = {
-  folder: TreeNode[];
-  expanded: boolean;
-  setActiveDoc: (path: string) => void;
-};
+type LeafItemProps = {
+  onClick: (path: string) => void,
+  node: TreeNode,
+}
 
 
+const LeafItem = (props: LeafItemProps) => {
+  const { node, onClick } = props
+  const path = node.path
+  const itemText = path.split('/').pop()
 
+  return (
+    <ListItemButton divider onClick={() => onClick(path)}>
+      <ListItemIcon>
+        <ArticleIcon />
+      </ListItemIcon>
+      <ListItemText primary={itemText} />
+    </ListItemButton>
+  )
+}
 
-type TreeItemProps = {
+type ExpandableItemTextProps = {
   onClick: (path: string) => void,
   node: TreeNode,
   expanded: boolean
 }
 
-
-const TreeItem = (props: TreeItemProps) => {
+const ExpandableItemText = (props: ExpandableItemTextProps) => {
   const { node, onClick, expanded } = props
   const text = node.path.split('/').pop() || 'empty'
   return (
@@ -38,15 +49,12 @@ const TreeItem = (props: TreeItemProps) => {
 }
 
 
-
-
-
-type CollapsibleBlockProps = {
+type TreeItemProps = {
   children?: React.ReactNode;
   expanded: boolean;
   node: TreeNode;
 };
-const CollapsibleBlock = (props: CollapsibleBlockProps) => {
+const TreeItem = (props: TreeItemProps) => {
   const {
     children,
     node,
@@ -58,11 +66,9 @@ const CollapsibleBlock = (props: CollapsibleBlockProps) => {
     setOpen(!open);
   };
 
-
-
   return (
     <>
-      <TreeItem  expanded={open} node={node} onClick={handleClick} />
+      <ExpandableItemText  expanded={open} node={node} onClick={handleClick} />
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List
           component="div"
@@ -79,44 +85,24 @@ const CollapsibleBlock = (props: CollapsibleBlockProps) => {
 };
 
 
-
-
-type LeafItemProps = {
-  onClick: (path: string) => void,
-  node: TreeNode,
-}
-
-
-const LeafItem = (props: LeafItemProps) => {
-
-  const { node, onClick } = props
-  const path = node.path
-  const itemText = path.split('/').pop()
-
-  return (
-    <ListItemButton divider onClick={() => onClick(path)}>
-      <ListItemIcon>
-        <ArticleIcon />
-      </ListItemIcon>
-      <ListItemText primary={itemText} />
-    </ListItemButton>
-  )
-}
-
-
+type WideRecursiveListProps = {
+  folder: TreeNode[];
+  expanded: boolean;
+  onSelect: (path: string) => void;
+}; 
 
 
 const WideRecursiveList = (props: WideRecursiveListProps) => {
-  const { folder, setActiveDoc, expanded } = props;
+  const { folder, onSelect, expanded } = props;
 
-  const _id = uuidv4();
+  //const _id = uuidv4();
 
   return (
     <List
       sx={{ width: '100%', bgcolor: 'background.paper' }}
       component="nav"
 
-      // TODO: parametrize header display and text, may be as optional extrenal component
+      // TODO: add header display (true/false) and/or text, may be as optional extrenal component
       // aria-labelledby={`nested-list-subheader-${_id}`}
       // subheader={
       //   <ListSubheader component="div" id={`nested-list-subheader-${_id}`}>
@@ -127,18 +113,18 @@ const WideRecursiveList = (props: WideRecursiveListProps) => {
       {folder.map((item) => (
         <React.Fragment key={uuidv4()}>
           {item.children?.length ? (
-            <CollapsibleBlock
+            <TreeItem
               node={item} // emtpty for typesafe, but normally should not appear
               expanded={expanded}
             >
               <WideRecursiveList
                 folder={item.children}
                 expanded={expanded}
-                setActiveDoc={setActiveDoc}
+                onSelect={onSelect}
               />
-            </CollapsibleBlock>
+            </TreeItem>
           ) : (
-            <LeafItem node={item} onClick={setActiveDoc} />
+            <LeafItem node={item} onClick={onSelect} />
           )}
         </React.Fragment>
       ))}

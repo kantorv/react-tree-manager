@@ -22,8 +22,6 @@ type TreeViewComponentProps = {
 
   useEffect(() => {
     console.log('[TreeViewComponent.useEffect] tree updated', props.tree);
-    
-    
     let cnt = 0;
     treeManager.traverse((node) => {
       console.log(`[TreeManager.traverse][${cnt+=1}] ${node.type} -- ${node.path}`);
@@ -54,15 +52,11 @@ type TreeViewComponentProps = {
             p: 1,
           }}
         >
-            <WideRecursiveList setActiveDoc={setActiveDoc} folder={props.tree} expanded />
+            <WideRecursiveList onSelect={setActiveDoc} folder={props.tree} expanded />
         </Box>
       </Box>
   )
   
  }
-  
-  
-  
- 
 
 export {TreeViewComponent}
