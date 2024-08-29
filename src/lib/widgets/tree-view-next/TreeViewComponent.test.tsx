@@ -81,6 +81,8 @@ const sample3: TreeNode[] = [
 
 describe('TreeComponent', () => {
   test('renders tree with the correct label', () => {
+    
+
     render(<TreeViewComponent tree={sample3} />);
     
     // Check if the button is rendered with the correct text
