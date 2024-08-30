@@ -16,6 +16,9 @@ permissions:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.build-publish.outputs.page_url }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -28,8 +31,8 @@ jobs:
           node-version: lts/*
           cache: 'yarn'
 
-      - name: Deploy Storybook
-        uses: bitovi/github-actions-storybook-to-github-pages@v1.0.2
+      - id: build-publish
+        uses: bitovi/github-actions-storybook-to-github-pages@v1.0.0
         with:
           install_command: yarn install 
           build_command: yarn build-storybook
@@ -37,10 +40,8 @@ jobs:
         env:
           GH_TOKEN: ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and publish to npm
+
+      - name: Debug
         if: github.ref == 'refs/tags/v*' # Only run on version tags
         run: |
-          yarn build
-          npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+          echo ${{ github.ref }}
