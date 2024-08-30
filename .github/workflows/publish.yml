@@ -40,6 +40,5 @@ jobs:
 
 
       - name: Debug
-        if: github.ref == 'refs/tags/v*' # Only run on version tags
         run: |
           echo ${{ github.ref }}
