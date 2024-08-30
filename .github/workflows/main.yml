@@ -45,9 +45,5 @@ jobs:
       - name: Check types
         run: yarn test --ci
 
-
-      - name: Build storybook
-        run: yarn build-storybook --quiet
-
       - name: Build package
         run: yarn build --silent 2>/dev/null # TODO: resolve "Module level directives cause errors when bundled, 'use client' was ignored."
