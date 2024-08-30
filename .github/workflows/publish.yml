@@ -39,7 +39,7 @@ jobs:
           GH_TOKEN: ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and publish to npm
-        if: github.ref == 'refs/tags/v*' # Only run on version tags
+        if: github.ref_type == 'tag'
         run: |
           yarn build --silent 2>/dev/null
           npm publish
