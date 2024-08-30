@@ -38,7 +38,10 @@ jobs:
         env:
           GH_TOKEN: ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}
 
-
-      - name: Debug
+      - name: Build and publish to npm
+        if: github.ref == 'refs/tags/v*' # Only run on version tags
         run: |
-          echo ${{ github.ref }}
+          yarn build --silent 2>/dev/null
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.YOUR_NPM_AUTH_TOKEN }}
