@@ -1,9 +1,8 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from "@storybook/react";
 import { Box } from "@mui/material";
-import { TreeEditor } from "..";
-
-
+//import { TreeEditor } from "..";
+import { TreeEditor } from '../lib/widgets/tree-view/TreeEditor'
 
 const meta: Meta<typeof TreeEditor> = {
 	component: TreeEditor,

@@ -1,7 +1,8 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from "@storybook/react";
 import { Box } from "@mui/material";
-import { TreeViewer } from "..";
+//import { TreeViewer } from "..";
+import { TreeViewerComponent as TreeViewer } from '../lib/widgets/tree-view/TreeViewer'
 
 
 

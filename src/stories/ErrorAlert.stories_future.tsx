@@ -1,7 +1,9 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from "@storybook/react";
 import { Box } from "@mui/material";
-import {  ErrorAlert } from "..";
+//import {  ErrorAlert } from "..";
+import  { default as ErrorAlert } from "../lib/components/alerts/ErrorAlert";
+ 
 
 
 
