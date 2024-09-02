@@ -4,16 +4,23 @@ permissions:
   pages: write
   id-token: write
 
+# on:
+#   push:
+#     # Sequence of patterns matched against refs/tags
+#     tags:
+#       - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+
 on:
-  push:
-    # Sequence of patterns matched against refs/tags
-    tags:
-      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+  pull_request:
+    types:
+      - closed
+
 
 name: Create Release
 
 jobs:
   release:
+    if: github.event.pull_request.merged == true
     name: Create Release
     runs-on: ubuntu-latest
     steps:
