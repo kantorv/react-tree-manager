@@ -60,6 +60,14 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
       
 
+      - id: deploy-storybook
+        uses: bitovi/github-actions-storybook-to-github-pages@v1.0.3
+        with:
+          install_command: yarn install 
+          build_command: yarn build-storybook
+          path: storybook-static
+        env:
+          GH_TOKEN: ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}
 
       # - name: Create Release
       #   id: create_release
