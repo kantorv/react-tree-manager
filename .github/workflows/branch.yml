@@ -47,29 +47,18 @@ jobs:
           echo Last commit: ${{ github.event.head_commit.message }}
 
 
-      - name: Get the base branch
-        id: base_branch
-        if: env.pr_exists == '0'
-        run: |
-          echo "base_branch=development" >> $GITHUB_ENV
+      # - name: Get the base branch
+      #   id: base_branch
+      #   if: env.pr_exists == '0'
+      #   run: |
+      #     echo "base_branch=development" >> $GITHUB_ENV
 
 
       - name: Create Pull Request
         if: env.pr_exists == '0'
-        id: create_pr
-        uses: peter-evans/create-pull-request@v6
-        with:
-          base: "development"
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.ref_name }}
-          title: "Auto PR from ${{ github.ref_name }}"
-          body: "This PR was automatically created for branch ${{ github.ref_name }}"
-          labels: minor
-          draft: false
-
-      - name: Check outputs
         run: |
-          echo "outputs - ${{ steps.create_pr.outputs }}"
+          BASE_BRANCH=development
+          gh pr create --base "$BASE_BRANCH" --head "${{ github.ref_name }}" --title "Auto PR from ${{ github.ref_name }}" --body "This PR was automatically created for branch ${{ github.ref_name }}." --label "patch"
 
 
       # - name: Check outputs
