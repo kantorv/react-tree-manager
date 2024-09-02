@@ -1,58 +1,28 @@
-# React Tree Manager
-
-
-
-
-
-![image description](docs/treeviewerv1.png)
-## Installation
-
-In the project directory, you can run:
-
-`npm install react-tree-manager` or `yarn add react-tree-manager`
-
-
-
-## Imports: 
-
-
-```ts
-interface TreeNode {
-    children?: TreeNode[];
-    path: string;
-    type: 'blob' | 'tree';
-}
-```
-
-`TreeViewer` : React Component - MUI5 based expandable list
-
-`TreeManager` : TS Class for tree/node management, (sample methods: `traverse`,`add`,`remove` etc)
-
-## Usage
-
-#### Pre-render tree manipulaton
-
-```tsx
-
 import * as React from 'react';
-import { useEffect, useState } from 'react';
-import {Box} from '@mui/material';
+import { useState,useEffect } from 'react';
+import type { Meta, StoryObj } from "@storybook/react";
+import { Box } from "@mui/material";
+import { TreeViewer } from "..";
+import { TreeManager } from '../lib/widgets/tree-view-next/helpers/treemgmt';
 
-import {TreeViewer, TreeManager, type  TreeManagerInstance } from 'react-tree-manager'
+
 
 
 type TreeViewComponentProps = {
     tree: TreeNode[];
+	children:React.ReactNode
 };
   
 
 
+
+
  const TreeViewWrapper = (props:TreeViewComponentProps)=> {
+
+  // const [treeData, setTreeData] = useState<TreeNode[]>([]);
   const onSelect = (node: TreeNode) =>  console.log('TreeViewWrapper.onSelect called', node.path);
   const treeManager = new TreeManager(props.tree);
 
-
-  // pre-render tree manupulation here:
 
   useEffect(() => {
     console.log('[TreeViewWrapper.useEffect] tree updated', props.tree);
@@ -66,6 +36,7 @@ type TreeViewComponentProps = {
 
   return  (
     <Box
+       data-testid="tree-component-wrapper"
         sx={{
           display: 'flex',
           flexDirection: 'column',
@@ -85,21 +56,17 @@ type TreeViewComponentProps = {
             p: 1,
           }}
         >
-            <TreeViewer onSelect={onSelect} folder={props.tree} expanded={false} />
+            {props.children}
         </Box>
       </Box>
   )
   
  }
 
-export {TreeViewWrapper}
-```
 
 
 
-#### example tree
-```json
-const sampleTree: TreeNode[]  = [
+const sample: TreeNode[]  = [
 	{
 	  "type": "blob",
 	  "path": "README.md"
@@ -188,13 +155,31 @@ const sampleTree: TreeNode[]  = [
 	}
   ];
   
-```
 
-## Credits
-* [Create React App](https://github.com/facebook/create-react-app) - react app bootstrapping
-* [MaterialUI](https://mui.com/material-ui/getting-started/) - MUIv5 as UI lib
-* [StoryBook](https://storybook.js.org/) - for isolated component development and testing
-* [Rollup](https://rollupjs.org/) - as component builder
-* [XState](https://xstate.js.org/) - state management
+const meta: Meta<typeof TreeViewer> = {
+	component: TreeViewer,
+};
+
+export default meta;
+type Story = StoryObj<typeof TreeViewer>;
+
+/*
+ *👇 Render functions are a framework specific feature to allow you control on how the component renders.
+ * See https://storybook.js.org/docs/api/csf
+ * to learn how to use render functions. */
+
+
+const TreeViewerNextSample = ()=> (
+		<TreeViewWrapper tree={sample}>
+			<TreeViewer onSelect={console.log} folder={sample} expanded={true} />
+		</TreeViewWrapper>
+    
+   
+)
+
+export const Single: Story = {
+	render: () => <TreeViewerNextSample />
+
+};
 
 

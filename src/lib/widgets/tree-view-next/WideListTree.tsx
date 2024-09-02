@@ -101,6 +101,7 @@ const WideRecursiveList = (props: WideRecursiveListProps) => {
     <List
       sx={{ width: '100%', bgcolor: 'background.paper' }}
       component="nav"
+      data-testid="treeviewer-wide-root"
 
       // TODO: add header display (true/false) and/or text, may be as optional extrenal component
       // aria-labelledby={`nested-list-subheader-${_id}`}

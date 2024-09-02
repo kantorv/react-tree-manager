@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom'
-import { TreeViewComponent } from './TreeViewComponent'
+import { TreeViewer } from '../../..'
 
 
 const sample3: TreeNode[] = [
@@ -79,14 +79,14 @@ const sample3: TreeNode[] = [
 
   
 
-describe('TreeComponent', () => {
-  test('renders tree with the correct label', () => {
+describe('TreeViewer', () => {
+  test('renders root with the correct testid', () => {
     
 
-    render(<TreeViewComponent tree={sample3} />);
+    render(<TreeViewer folder={sample3}  onSelect={()=>{}} expanded={true} />);
     
     // Check if the button is rendered with the correct text
-    const wrapperElement = screen.getByTestId('tree-component-wrapper')
-    expect(wrapperElement).toBeInTheDocument();
+    const wrapperElement = screen.getAllByTestId('treeviewer-wide-root')
+    expect(wrapperElement[0]).toBeInTheDocument();
   });
 });

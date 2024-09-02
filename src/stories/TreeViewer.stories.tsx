@@ -1,10 +1,10 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from "@storybook/react";
 import { Box } from "@mui/material";
-import { TreeViewerNext } from "..";
+import { TreeViewWrapper } from "./TreeViewComponent";
 
 
-const sample3: TreeNode[]  = [
+const sample: TreeNode[]  = [
 	{
 	  "type": "blob",
 	  "path": "README.md"
@@ -94,12 +94,12 @@ const sample3: TreeNode[]  = [
   ];
   
 
-const meta: Meta<typeof TreeViewerNext> = {
-	component: TreeViewerNext,
+const meta: Meta<typeof TreeViewWrapper> = {
+	component: TreeViewWrapper,
 };
 
 export default meta;
-type Story = StoryObj<typeof TreeViewerNext>;
+type Story = StoryObj<typeof TreeViewWrapper>;
 
 /*
  *👇 Render functions are a framework specific feature to allow you control on how the component renders.
@@ -107,64 +107,9 @@ type Story = StoryObj<typeof TreeViewerNext>;
  * to learn how to use render functions. */
 
 
-const TreeViewerNextSample = ()=> (
-	<Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        background: 'wheat',
-        height: '100%',
-        maxWidth: 400,
-		minHeight: "100%",
-      }}
-    >
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          height: '100%',
-
-          p: 1,
-        }}
-      >
-        <TreeViewerNext tree={sample3} />
-      </Box>
-    </Box>
-)
+const TreeViewerNextSample = ()=> <TreeViewWrapper tree={sample} />
 
 export const Single: Story = {
 	render: () => <TreeViewerNextSample />
 
 };
-
-
-
-
-/**
- * 
- * 
- 
-
-[traverse] blob -- README.md
-[traverse] tree -- docs
-[traverse] tree -- docs/guides
-[traverse] blob -- docs/guides/getting_started.md
-[traverse] blob -- docs/guides/advanced_usage.md
-[traverse] tree -- docs/guides/examples
-[traverse] blob -- docs/guides/examples/code_snippet.js
-[traverse] tree -- docs/guides/examples/configurations
-[traverse] blob -- docs/guides/examples/configurations/sample_config.json
-[traverse] blob -- docs/guides/examples/configurations/deployment.yaml
-
-[traverse] tree -- src
-[traverse] blob -- src/index.js
-[traverse] tree -- src/components
-[traverse] blob -- src/components/Header.jsx
-[traverse] tree -- src/components/ui
-[traverse] blob -- src/components/ui/Button.tsx
-[traverse] blob -- src/components/ui/Modal.tsx
-
-[traverse] blob -- LICENSE.txt
-
-
- */
