@@ -9,6 +9,9 @@
   "files": [
     "build"
   ],
+  "repository": {
+    "url": "ssh+git@github.com:kantorv/react-tree-manager.git"
+  },
   "devDependencies": {
     "@babel/types": "^7.25.4",
     "@rollup/plugin-commonjs": "^26.0.1",

@@ -1,46 +1,200 @@
-# Getting Started with Create React App
+# React Tree Manager
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+
+
+
+![image description](docs/treeviewerv1.png)
+## Installation
 
 In the project directory, you can run:
 
-### `yarn start`
+`npm install react-tree-manager` or `yarn add react-tree-manager`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
 
-### `yarn test`
+## Imports: 
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn build`
+```ts
+interface TreeNode {
+    children?: TreeNode[];
+    path: string;
+    type: 'blob' | 'tree';
+}
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+`TreeViewer` : React Component - MUI5 based expandable list
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+`TreeManager` : TS Class for tree/node management, (sample methods: `traverse`,`add`,`remove` etc)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Usage
 
-### `yarn eject`
+#### Pre-render tree manipulaton
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```tsx
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+import * as React from 'react';
+import { useEffect, useState } from 'react';
+import {Box} from '@mui/material';
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+import {TreeViewer, TreeManager, type  TreeManagerInstance } from 'react-tree-manager'
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+type TreeViewComponentProps = {
+    tree: TreeNode[];
+};
+  
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+ const TreeViewWrapper = (props:TreeViewComponentProps)=> {
+  const onSelect = (node: TreeNode) =>  console.log('TreeViewWrapper.onSelect called', node.path);
+  const treeManager = new TreeManager(props.tree);
+
+
+  // pre-render tree manupulation here:
+
+  useEffect(() => {
+    console.log('[TreeViewWrapper.useEffect] tree updated', props.tree);
+    let cnt = 0;
+    treeManager.traverse((node) => {
+      console.log(`[TreeManager.traverse][${cnt+=1}] ${node.type} -- ${node.path}`);
+    });
+
+  }, [props.tree]);
+
+
+  return  (
+    <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          background: 'wheat',
+          height: '100%',
+          maxWidth: 400,
+          minHeight: 800,
+        }}
+      >
+        <Box
+          component={'div'}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            height: '100%',
+            whiteSpace:"wrap",
+            p: 1,
+          }}
+        >
+            <TreeViewer onSelect={onSelect} folder={props.tree} expanded={false} />
+        </Box>
+      </Box>
+  )
+  
+ }
+
+export {TreeViewWrapper}
+```
+
+
+
+#### example tree
+```json
+const sampleTree: TreeNode[]  = [
+	{
+	  "type": "blob",
+	  "path": "README.md"
+	},
+	{
+	  "type": "tree",
+	  "path": "docs",
+	  "children": [
+		{
+		  "type": "tree",
+		  "path": "docs/guides",
+		  "children": [
+			{
+			  "type": "blob",
+			  "path": "docs/guides/getting_started.md"
+			},
+			{
+			  "type": "blob",
+			  "path": "docs/guides/advanced_usage.md"
+			},
+			{
+			  "type": "tree",
+			  "path": "docs/guides/examples",
+			  "children": [
+				{
+				  "type": "blob",
+				  "path": "docs/guides/examples/code_snippet.js"
+				},
+				{
+				  "type": "tree",
+				  "path": "docs/guides/examples/configurations",
+				  "children": [
+					{
+					  "type": "blob",
+					  "path": "docs/guides/examples/configurations/sample_config.json"
+					},
+					{
+					  "type": "blob",
+					  "path": "docs/guides/examples/configurations/deployment.yaml"
+					}
+				  ]
+				}
+			  ]
+			}
+		  ]
+		}
+	  ]
+	},
+	{
+	  "type": "tree",
+	  "path": "src",
+	  "children": [
+		{
+		  "type": "blob",
+		  "path": "src/index.js"
+		},
+		{
+		  "type": "tree",
+		  "path": "src/components",
+		  "children": [
+			{
+			  "type": "blob",
+			  "path": "src/components/Header.jsx"
+			},
+			{
+			  "type": "tree",
+			  "path": "src/components/ui",
+			  "children": [
+				{
+				  "type": "blob",
+				  "path": "src/components/ui/Button.tsx"
+				},
+				{
+				  "type": "blob",
+				  "path": "src/components/ui/Modal.tsx"
+				}
+			  ]
+			}
+		  ]
+		}
+	  ]
+	},
+	{
+	  "type": "blob",
+	  "path": "LICENSE.txt"
+	}
+  ];
+  
+```
+
+## Credits
+* [Create React App](https://github.com/facebook/create-react-app) - react app bootstrapping
+* [MaterialUI](https://mui.com/material-ui/getting-started/) - MUIv5 as UI lib
+* [StoryBook](https://storybook.js.org/) - for isolated component development and testing
+* [Rollup](https://rollupjs.org/) - as component builder
+* [XState](https://xstate.js.org/) - state management
+
+
