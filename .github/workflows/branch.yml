@@ -65,12 +65,17 @@ jobs:
       #   run: |
       #     echo "base_branch=development" >> $GITHUB_ENV
 
-
-      - name: Create Pull Request
+      - name: pull-request
         if: env.pr_exists == '0'
         run: |
-          BASE_BRANCH=development
-          gh pr create --base "$BASE_BRANCH" --head "${{ github.ref_name }}" --title "Auto PR from ${{ github.ref_name }}" --body "This PR was automatically created for branch ${{ github.ref_name }}." --label "patch"
+          gh_pr_up() { gh pr create $* || gh pr edit $* }
+          gh_pr_up --title "My pull request" --body "Description"
+
+      # - name: Create Pull Request
+      #   if: env.pr_exists == '0'
+      #   run: |
+      #     BASE_BRANCH=development
+      #     gh pr create --base "$BASE_BRANCH" --head "${{ github.ref_name }}" --title "Auto PR from ${{ github.ref_name }}" --body "This PR was automatically created for branch ${{ github.ref_name }}." --label "patch"
 
 
       # - name: Check outputs
