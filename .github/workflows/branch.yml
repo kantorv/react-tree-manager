@@ -1,0 +1,78 @@
+name: New branch created
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+
+on:
+  push:
+    branches:
+      - 'feature/*'
+      - 'hotfix/*'
+
+jobs:
+  create-pr:
+    if: ${{ !contains(github.event.head_commit.message, '--skip-pr') }}
+
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    name: Create PR
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+
+      - name: Set up Git
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+
+      - name: Install GitHub CLI
+        run: sudo apt-get install -y gh
+
+      - name: Authenticate GitHub CLI
+        run: gh auth setup-git
+
+
+      - name: Check if PR already exists
+        id: check_pr
+        run: |
+          BRANCH_NAME="${{ github.ref_name }}"
+          PR_EXISTS=$(gh pr list --head "$BRANCH_NAME" --json number --jq '. | length')
+          echo "pr_exists=$PR_EXISTS" >> $GITHUB_ENV
+
+
+      - name: Stop if PR already exists
+        if: env.pr_exists != '0'
+        run: |
+          echo "A PR from this branch already exists. Skipping creation."
+
+      # - name: Last commit message
+      #   run: |
+      #     echo Last commit: ${{ github.event.head_commit.message }}
+
+
+      # - name: Get the base branch
+      #   id: base_branch
+      #   if: env.pr_exists == '0'
+      #   run: |
+      #     echo "base_branch=development" >> $GITHUB_ENV
+
+      # - name: pull-request
+      #   if: env.pr_exists == '0'
+      #   run: |
+      #     gh pr create --title "My pull request" --body "Description"
+
+
+      - name: Create Pull Request
+        if: env.pr_exists == '0'
+        run: |
+          BASE_BRANCH=development
+          gh pr create --base "$BASE_BRANCH" --head "${{ github.ref_name }}" --title "Auto PR from ${{ github.ref_name }}" --body "This PR was automatically created for branch ${{ github.ref_name }}." --label "patch"
