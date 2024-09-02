@@ -73,10 +73,11 @@ jobs:
       - name: Release-it
         run: |
           npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
-          yarn release --ci -i "minor"
+          yarn release --ci -i $RELEASE_TYPE
         env:
           NPM_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+          RELEASE_TYPE: ${{ steps.release_type.outputs.release_type }}
       
 
       - id: deploy-storybook

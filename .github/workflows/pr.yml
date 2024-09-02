@@ -1,0 +1,48 @@
+name: Release type check
+
+on:
+  pull_request:
+    types:
+      - edited
+      - opened
+      - synchronize
+    branches:
+      - 'main'
+      - 'development'
+
+
+jobs:
+  check-release:
+    if: ${{ !contains(github.event.head_commit.message, '--skip-ci') }}
+
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    name: Check release label
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Get the pull request labels
+        id: labels
+        run: echo "::set-output name=labels::$(echo ${GITHUB_EVENT_PATH} | jq -r '.pull_request.labels[].name' | tr '\n' ',')"
+
+      - name: Determine the release type
+        id: release_type
+        run: |
+          labels=${{ steps.labels.outputs.labels }}
+          if [[ "$labels" == *"major"* ]]; then
+            echo "::set-output name=release_type::major"
+          elif [[ "$labels" == *"minor"* ]]; then
+            echo "::set-output name=release_type::minor"
+          elif [[ "$labels" == *"patch"* ]]; then
+            echo "::set-output name=release_type::patch"
+          else
+            echo "No valid release label found."
+            exit 1
+          fi
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
