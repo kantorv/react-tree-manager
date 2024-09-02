@@ -24,6 +24,25 @@ jobs:
     name: Create Release
     runs-on: ubuntu-latest
     steps:
+      - name: Get the pull request labels
+        id: labels
+        run: echo "::set-output name=labels::$(echo ${GITHUB_EVENT_PATH} | jq -r '.pull_request.labels[].name' | tr '\n' ',')"
+
+      - name: Determine the release type
+        id: release_type
+        run: |
+          labels=${{ steps.labels.outputs.labels }}
+          if [[ "$labels" == *"major"* ]]; then
+            echo "::set-output name=release_type::major"
+          elif [[ "$labels" == *"minor"* ]]; then
+            echo "::set-output name=release_type::minor"
+          elif [[ "$labels" == *"patch"* ]]; then
+            echo "::set-output name=release_type::patch"
+          else
+            echo "No valid release label found."
+            exit 1
+          fi
+
       - name: Checkout code
         uses: actions/checkout@v4
         with:
