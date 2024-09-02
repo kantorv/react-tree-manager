@@ -48,17 +48,16 @@ jobs:
         run: |
           echo "base_branch=development" >> $GITHUB_ENV
 
-      - name: Create Pull Request
+    - name: Create Pull Request
         id: create_pr
         if: env.pr_exists == '0'
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v5
         with:
           base: ${{ env.base_branch }}
-          head: ${{ github.ref_name }}
+          branch: ${{ github.ref_name }}  # Use 'branch' instead of 'head'
           title: "Auto PR from ${{ github.ref_name }}"
           body: "This PR was automatically created for branch ${{ github.ref_name }}."
           draft: false
-          branch: ${{ github.ref_name }}
           labels: patch
 
 
