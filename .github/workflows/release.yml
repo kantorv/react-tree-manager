@@ -26,18 +26,18 @@ jobs:
     steps:
       - name: Get the pull request labels
         id: labels
-        run: echo "::set-output name=labels::$(echo ${GITHUB_EVENT_PATH} | jq -r '.pull_request.labels[].name' | tr '\n' ',')"
+        run: echo "labels=$(jq -r '.pull_request.labels[].name' $GITHUB_EVENT_PATH | tr '\n' ',')" >> $GITHUB_ENV
 
       - name: Determine the release type
         id: release_type
         run: |
-          labels=${{ steps.labels.outputs.labels }}
+          labels=${{ env.labels }}
           if [[ "$labels" == *"major"* ]]; then
-            echo "::set-output name=release_type::major"
+            echo "release_type=major" >> $GITHUB_ENV
           elif [[ "$labels" == *"minor"* ]]; then
-            echo "::set-output name=release_type::minor"
+            echo "release_type=minor" >> $GITHUB_ENV
           elif [[ "$labels" == *"patch"* ]]; then
-            echo "::set-output name=release_type::patch"
+            echo "release_type=patch" >> $GITHUB_ENV
           else
             echo "No valid release label found."
             exit 1
@@ -73,11 +73,10 @@ jobs:
       - name: Release-it
         run: |
           npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
-          yarn release --ci -i $RELEASE_TYPE
+          yarn release --ci -i  ${{ env.release_type }}
         env:
           NPM_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
-          RELEASE_TYPE: ${{ steps.release_type.outputs.release_type }}
       
 
       - id: deploy-storybook
