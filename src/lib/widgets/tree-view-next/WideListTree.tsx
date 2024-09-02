@@ -24,13 +24,13 @@ const LeafItem = (props: LeafItemProps) => {
   )
 }
 
-type ExpandableItemTextProps = {
+type TreeItemHeaderProps = {
   onClick: (path: string) => void,
   node: TreeNode,
   expanded: boolean
 }
 
-const ExpandableItemText = (props: ExpandableItemTextProps) => {
+const TreeItemHeader = (props: TreeItemHeaderProps) => {
   const { node, onClick, expanded } = props
   const text = node.path.split('/').pop() || 'empty'
   return (
@@ -68,7 +68,7 @@ const TreeItem = (props: TreeItemProps) => {
 
   return (
     <>
-      <ExpandableItemText  expanded={open} node={node} onClick={handleClick} />
+      <TreeItemHeader  expanded={open} node={node} onClick={handleClick} />
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List
           component="div"
