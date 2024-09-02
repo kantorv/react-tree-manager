@@ -13,15 +13,15 @@ type TreeViewComponentProps = {
 
 
 
- const TreeViewComponent = (props:TreeViewComponentProps)=> {
+ const TreeViewWrapper = (props:TreeViewComponentProps)=> {
 
   // const [treeData, setTreeData] = useState<TreeNode[]>([]);
-  const onSelect = (node: TreeNode) =>  console.log('TreeViewComponent.onSelect called', node.path);
+  const onSelect = (node: TreeNode) =>  console.log('TreeViewWrapper.onSelect called', node.path);
   const treeManager = new TreeManager(props.tree);
 
 
   useEffect(() => {
-    console.log('[TreeViewComponent.useEffect] tree updated', props.tree);
+    console.log('[TreeViewWrapper.useEffect] tree updated', props.tree);
     let cnt = 0;
     treeManager.traverse((node) => {
       console.log(`[TreeManager.traverse][${cnt+=1}] ${node.type} -- ${node.path}`);
@@ -43,7 +43,7 @@ type TreeViewComponentProps = {
         }}
       >
         <Box
-          component={'pre'}
+          component={'div'}
           sx={{
             display: 'flex',
             flexDirection: 'column',
@@ -59,4 +59,4 @@ type TreeViewComponentProps = {
   
  }
 
-export {TreeViewComponent}
+export {TreeViewWrapper}

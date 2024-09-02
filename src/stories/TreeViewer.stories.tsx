@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from "@storybook/react";
 import { Box } from "@mui/material";
-import { TreeViewer } from "..";
+import { TreeViewWrapper } from "../lib/widgets/tree-view-next/TreeViewComponent";
 
 
 const sample: TreeNode[]  = [
@@ -94,12 +94,12 @@ const sample: TreeNode[]  = [
   ];
   
 
-const meta: Meta<typeof TreeViewer> = {
-	component: TreeViewer,
+const meta: Meta<typeof TreeViewWrapper> = {
+	component: TreeViewWrapper,
 };
 
 export default meta;
-type Story = StoryObj<typeof TreeViewer>;
+type Story = StoryObj<typeof TreeViewWrapper>;
 
 /*
  *👇 Render functions are a framework specific feature to allow you control on how the component renders.
@@ -107,30 +107,7 @@ type Story = StoryObj<typeof TreeViewer>;
  * to learn how to use render functions. */
 
 
-const TreeViewerNextSample = ()=> (
-	<Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        background: 'wheat',
-        height: '100%',
-        maxWidth: 400,
-		minHeight: "100%",
-      }}
-    >
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          height: '100%',
-
-          p: 1,
-        }}
-      >
-        <TreeViewer tree={sample} />
-      </Box>
-    </Box>
-)
+const TreeViewerNextSample = ()=> <TreeViewWrapper tree={sample} />
 
 export const Single: Story = {
 	render: () => <TreeViewerNextSample />

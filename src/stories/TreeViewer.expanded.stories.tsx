@@ -1,7 +1,69 @@
 import * as React from 'react';
+import { useState,useEffect } from 'react';
 import type { Meta, StoryObj } from "@storybook/react";
 import { Box } from "@mui/material";
 import { TreeViewer } from "..";
+import { TreeManager } from '../lib/widgets/tree-view-next/helpers/treemgmt';
+
+
+
+
+type TreeViewComponentProps = {
+    tree: TreeNode[];
+	children:React.ReactNode
+};
+  
+
+
+
+
+ const TreeViewWrapper = (props:TreeViewComponentProps)=> {
+
+  // const [treeData, setTreeData] = useState<TreeNode[]>([]);
+  const onSelect = (node: TreeNode) =>  console.log('TreeViewWrapper.onSelect called', node.path);
+  const treeManager = new TreeManager(props.tree);
+
+
+  useEffect(() => {
+    console.log('[TreeViewWrapper.useEffect] tree updated', props.tree);
+    let cnt = 0;
+    treeManager.traverse((node) => {
+      console.log(`[TreeManager.traverse][${cnt+=1}] ${node.type} -- ${node.path}`);
+    });
+
+  }, [props.tree]);
+
+
+  return  (
+    <Box
+       data-testid="tree-component-wrapper"
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          background: 'wheat',
+          height: '100%',
+          maxWidth: 400,
+          minHeight: 800,
+        }}
+      >
+        <Box
+          component={'div'}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            height: '100%',
+            whiteSpace:"wrap",
+            p: 1,
+          }}
+        >
+            {props.children}
+        </Box>
+      </Box>
+  )
+  
+ }
+
+
 
 
 const sample: TreeNode[]  = [
@@ -108,31 +170,16 @@ type Story = StoryObj<typeof TreeViewer>;
 
 
 const TreeViewerNextSample = ()=> (
-	<Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        background: 'wheat',
-        height: '100%',
-        maxWidth: 400,
-		minHeight: "100%",
-      }}
-    >
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          height: '100%',
-
-          p: 1,
-        }}
-      >
-        <TreeViewer tree={sample} />
-      </Box>
-    </Box>
+		<TreeViewWrapper tree={sample}>
+			<TreeViewer onSelect={console.log} folder={sample} expanded={true} />
+		</TreeViewWrapper>
+    
+   
 )
 
 export const Single: Story = {
 	render: () => <TreeViewerNextSample />
 
 };
+
+

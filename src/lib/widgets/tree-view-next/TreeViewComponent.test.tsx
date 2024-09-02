@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom'
-import { TreeViewComponent } from './TreeViewComponent'
+import { TreeViewWrapper } from './TreeViewComponent'
 
 
 const sample3: TreeNode[] = [
@@ -83,7 +83,7 @@ describe('TreeComponent', () => {
   test('renders tree with the correct label', () => {
     
 
-    render(<TreeViewComponent tree={sample3} />);
+    render(<TreeViewWrapper tree={sample3} />);
     
     // Check if the button is rendered with the correct text
     const wrapperElement = screen.getByTestId('tree-component-wrapper')
