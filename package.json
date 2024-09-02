@@ -1,6 +1,6 @@
 {
   "name": "react-tree-manager",
-  "version": "0.3.10",
+  "version": "0.3.11",
   "private": false,
   "main": "./build/index.js",
   "module": "./build/index.es.js",
@@ -88,5 +88,19 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "release-it": {
+    "git": {
+      "commit": false,
+      "tag": true,
+      "push" : true
+    },
+    "github": {
+      "release": true
+    },
+    "npm": {
+      "skipChecks": true,
+      "publish": true
+    }
   }
 }
