@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from "@storybook/react";
 import { Box } from "@mui/material";
-import { TreeViewWrapper } from "../lib/widgets/tree-view-next/TreeViewComponent";
+import { TreeViewWrapper } from "./TreeViewComponent";
 
 
 const sample: TreeNode[]  = [

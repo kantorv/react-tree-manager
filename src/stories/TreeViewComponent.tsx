@@ -2,8 +2,8 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import {Box} from '@mui/material';
 
-import { TreeManager } from './helpers/treemgmt'
-import { WideRecursiveList } from './WideListTree';
+import { TreeManager } from '../lib/widgets/tree-view-next/helpers/treemgmt'
+import { WideRecursiveList } from '../lib/widgets/tree-view-next/WideListTree';
 
 type TreeViewComponentProps = {
     tree: TreeNode[];
