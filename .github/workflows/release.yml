@@ -24,6 +24,25 @@ jobs:
     name: Create Release
     runs-on: ubuntu-latest
     steps:
+      - name: Get the pull request labels
+        id: labels
+        run: echo "labels=$(jq -r '.pull_request.labels[].name' $GITHUB_EVENT_PATH | tr '\n' ',')" >> $GITHUB_ENV
+
+      - name: Determine the release type
+        id: release_type
+        run: |
+          labels=${{ env.labels }}
+          if [[ "$labels" == *"major"* ]]; then
+            echo "release_type=major" >> $GITHUB_ENV
+          elif [[ "$labels" == *"minor"* ]]; then
+            echo "release_type=minor" >> $GITHUB_ENV
+          elif [[ "$labels" == *"patch"* ]]; then
+            echo "release_type=patch" >> $GITHUB_ENV
+          else
+            echo "No valid release label found."
+            exit 1
+          fi
+
       - name: Checkout code
         uses: actions/checkout@v4
         with:
@@ -54,12 +73,20 @@ jobs:
       - name: Release-it
         run: |
           npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
-          yarn release --ci -i "minor"
+          yarn release --ci -i  ${{ env.release_type }}
         env:
           NPM_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
       
 
+      - id: deploy-storybook
+        uses: bitovi/github-actions-storybook-to-github-pages@v1.0.3
+        with:
+          install_command: yarn install 
+          build_command: yarn build-storybook
+          path: storybook-static
+        env:
+          GH_TOKEN: ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}
 
       # - name: Create Release
       #   id: create_release
