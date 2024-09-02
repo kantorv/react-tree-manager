@@ -66,5 +66,6 @@ jobs:
       #     echo "base_branch=development" >> $GITHUB_ENV
 
       - name: pull-request
+        if: env.pr_exists == '0'
         run: |
           gh pr create --title "My pull request" --body "Description"
