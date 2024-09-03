@@ -53,6 +53,9 @@ jobs:
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
 
+
+
+
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
@@ -68,13 +71,38 @@ jobs:
       - name: Check types
         run: yarn test --ci
 
+
+
+      - name: Get merged branch name
+        id: get_branch
+        run: echo "merged_branch=$(echo ${{ github.event.pull_request.head.ref }})" >> $GITHUB_ENV
+
+      - name: Check out the merged branch
+        run: |
+          git fetch origin ${{ env.merged_branch }}:${{ env.merged_branch }}
+          git checkout ${{ env.merged_branch }}
+
+      - name: Bump version
+        run: yarn version --$release_type
+
+      - name: Push changes to merged branch
+        run: |
+          git push origin ${{ env.merged_branch }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+          
+      - name: Check out development branch
+        run: |
+          git checkout development
+
+
+
       - name: Build package
         run: yarn build --silent 2>/dev/null # TODO: resolve "Module level directives cause errors when bundled, 'use client' was ignored."
 
       - name: Release-it
         run: | # # -i  ${{ env.release_type }}
           npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
-          yarn version --$release_type
           yarn release --ci 
         env:
           NPM_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
