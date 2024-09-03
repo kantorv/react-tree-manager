@@ -75,4 +75,5 @@ jobs:
         if: env.pr_exists == '0'
         run: |
           BASE_BRANCH=development
+          yarn version --patch
           gh pr create --base "$BASE_BRANCH" --head "${{ github.ref_name }}" --title "Auto PR from ${{ github.ref_name }}" --body "This PR was automatically created for branch ${{ github.ref_name }}." --label "patch"
