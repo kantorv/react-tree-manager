@@ -35,7 +35,7 @@ jobs:
 
 
       - name: Fetch all branches
-        run: git fetch --prine
+        run: git fetch --prune
 
       - name: Install GitHub CLI
         run: sudo apt-get install -y gh
