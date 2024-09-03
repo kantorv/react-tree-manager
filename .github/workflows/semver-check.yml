@@ -7,7 +7,6 @@ on:
       - opened
       - synchronize
     branches:
-      - 'main'
       - 'development'
 
 
@@ -27,7 +26,7 @@ jobs:
         id: labels
         run: echo "labels=$(jq -r '.pull_request.labels[].name' $GITHUB_EVENT_PATH | tr '\n' ',')" >> $GITHUB_ENV
 
-      - name: Determine the release type
+      - name: Determine the release type # TODO: deal with multiple labels
         id: release_type
         run: |
           labels=${{ env.labels }}
