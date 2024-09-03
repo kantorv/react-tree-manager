@@ -70,7 +70,7 @@ jobs:
 
 
       - name: Fail if no commits are found
-        if: env.commit_count == '0'
+        if: env.new_commit_count == '0'
         run: |
           echo "No commits found in the branch. Exiting..."
 
