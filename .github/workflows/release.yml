@@ -73,27 +73,27 @@ jobs:
 
 
 
-      - name: Get merged branch name
-        id: get_branch
-        run: echo "merged_branch=$(echo ${{ github.event.pull_request.head.ref }})" >> $GITHUB_ENV
+      # - name: Get merged branch name
+      #   id: get_branch
+      #   run: echo "merged_branch=$(echo ${{ github.event.pull_request.head.ref }})" >> $GITHUB_ENV
 
-      - name: Check out the merged branch
-        run: |
-          git fetch origin ${{ env.merged_branch }}:${{ env.merged_branch }}
-          git checkout ${{ env.merged_branch }}
+      # - name: Check out the merged branch
+      #   run: |
+      #     git fetch origin ${{ env.merged_branch }}:${{ env.merged_branch }}
+      #     git checkout ${{ env.merged_branch }}
 
-      - name: Bump version
-        run: yarn version --$release_type
+      # - name: Bump version
+      #   run: yarn version --$release_type
 
-      - name: Push changes to merged branch
-        run: |
-          git push origin ${{ env.merged_branch }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
-          
-      - name: Check out development branch
-        run: |
-          git checkout development
+      # - name: Push changes to merged branch
+      #   run: |
+      #     git push origin ${{ env.merged_branch }}
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+
+      # - name: Check out development branch
+      #   run: |
+      #     git checkout development
 
 
 
