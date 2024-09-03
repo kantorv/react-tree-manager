@@ -42,5 +42,5 @@ jobs:
             exit 1
           fi
 
-      - name: Checkout repository
-        run: echo "Release ${{ github.ref_name }} - ${{ env.release_type }}"
+      # - name: Checkout repository
+      #   run: echo "Release ${{ github.ref_name }} - ${{ env.release_type }}"
