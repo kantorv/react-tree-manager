@@ -19,3 +19,11 @@ jobs:
         run: |
           echo  Release ${{ github.ref }} created
 
+  tagcreatednomerge:
+    if: github.event.pull_request.merged == false
+    name: new Tag Added [no merge]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        run: |
+          echo  Release ${{ github.ref }} created
