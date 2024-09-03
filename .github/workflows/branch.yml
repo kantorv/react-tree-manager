@@ -25,14 +25,18 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        # with:
-        #   fetch-depth: 0
-
+        with:
+          fetch-depth: 0
 
       - name: Set up Git
         run: |
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor }}@users.noreply.github.com"
+
+
+
+      - name: Fetch all branches
+        run: git fetch --prune --unshallow
 
       - name: Install GitHub CLI
         run: sudo apt-get install -y gh
