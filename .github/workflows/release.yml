@@ -103,7 +103,7 @@ jobs:
       - name: Release-it
         run: | # # -i  ${{ env.release_type }}
           npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
-          yarn release --ci 
+          yarn release --ci  --increment=$release_type
         env:
           NPM_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 

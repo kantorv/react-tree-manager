@@ -71,19 +71,18 @@ jobs:
       #     gh pr create --title "My pull request" --body "Description"
 
 
-      - name: Bump version
-        run: yarn version --patch
+      # - name: Bump version
+      #   run: yarn version --patch
 
-      - name: Push changes to merged branch
-        run: |
-          git push origin ${{ github.ref_name }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+      # - name: Push changes to merged branch
+      #   run: |
+      #     git push origin ${{ github.ref_name }}
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
 
 
       - name: Create Pull Request
         if: env.pr_exists == '0'
         run: |
           BASE_BRANCH=development
-          yarn version --patch
           gh pr create --base "$BASE_BRANCH" --head "${{ github.ref_name }}" --title "Auto PR from ${{ github.ref_name }}" --body "This PR was automatically created for branch ${{ github.ref_name }}." --label "patch"
