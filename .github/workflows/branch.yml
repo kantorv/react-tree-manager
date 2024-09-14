@@ -28,17 +28,23 @@ jobs:
         with:
           fetch-depth: 0
 
-
       - name: Set up Git
         run: |
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor }}@users.noreply.github.com"
+
+      - name: Fetch base branch
+        run: |
+          base_branch="development"  # Replace with your actual base branch name
+          git fetch origin $base_branch:$base_branch
+
 
       - name: Install GitHub CLI
         run: sudo apt-get install -y gh
 
       - name: Authenticate GitHub CLI
         run: gh auth setup-git
+
 
 
       - name: Check if PR already exists
@@ -54,6 +60,21 @@ jobs:
         run: |
           echo "A PR from this branch already exists. Skipping creation."
 
+
+      - name: Get new commits count
+        id: check_commits
+        run: |
+          base_branch="development"  # Replace with your actual base branch name
+          new_commit_count=$(git rev-list --count HEAD ^$base_branch)
+          echo "new_commit_count=$new_commit_count" >> $GITHUB_ENV
+
+
+      - name: Fail if no commits are found
+        if: env.new_commit_count == '0'
+        run: |
+          echo "No commits found in the branch. Exiting..."
+
+          
       # - name: Last commit message
       #   run: |
       #     echo Last commit: ${{ github.event.head_commit.message }}
@@ -82,7 +103,7 @@ jobs:
 
 
       - name: Create Pull Request
-        if: env.pr_exists == '0'
+        if: env.pr_exists == '0' && env.new_commit_count != '0'
         run: |
           BASE_BRANCH=development
           gh pr create --base "$BASE_BRANCH" --head "${{ github.ref_name }}" --title "Auto PR from ${{ github.ref_name }}" --body "This PR was automatically created for branch ${{ github.ref_name }}." --label "patch"
