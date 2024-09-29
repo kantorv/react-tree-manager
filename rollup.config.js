@@ -32,7 +32,12 @@ export default [{
     postcss(),
     url(),
     svgr(),
-  ]
+  ],
+  onwarn: (warning, warn) => {
+    // Ignore 'use client' warnings
+    if (warning.code === 'MODULE_LEVEL_DIRECTIVE') return;
+    warn(warning);
+  },
 },
 {
   input: './build/dts/index.d.ts',
