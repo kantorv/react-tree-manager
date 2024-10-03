@@ -1,8 +1,9 @@
 # React Tree Manager
 
+[![npm](https://img.shields.io/npm/v/react-tree-manager.svg)](https://www.npmjs.com/package/react-tree-manager)
 
 
-
+ **⚠️ In development ⚠️**
 
 ![image description](docs/treeviewerv1.png)
 ## Installation
