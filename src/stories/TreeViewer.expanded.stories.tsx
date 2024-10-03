@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { Box } from "@mui/material";
 import { TreeViewer } from "..";
 import { TreeManager } from '../lib/widgets/tree-view-next/helpers/treemgmt';
-
+import { type TreeNode } from '..';
 
 
 

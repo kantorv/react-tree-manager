@@ -125,12 +125,8 @@ jobs:
 
           git push --follow-tags
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
-
-
-
-
-
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
       - name: NPM publish
         run: |
           npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN

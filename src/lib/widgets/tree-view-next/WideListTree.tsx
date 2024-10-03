@@ -2,6 +2,8 @@ import * as React from 'react';
 import { List, ListSubheader, ListItemText, ListItemIcon, ListItemButton, Collapse } from '@mui/material'
 import { ExpandMore, KeyboardArrowRight as KeyboardArrowRightIcon, Article as ArticleIcon, Folder as FolderIcon } from '@mui/icons-material'
 import { uuidv4 } from './helpers/utils';
+import { type TreeNode } from '../../..';
+
 
 type LeafItemProps = {
   onSelect: (node: TreeNode) => void, // TODO: check if node_id is better

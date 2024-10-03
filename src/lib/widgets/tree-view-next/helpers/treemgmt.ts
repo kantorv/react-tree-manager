@@ -1,3 +1,6 @@
+import { type TreeNode } from '../../../..';
+
+
 class TreeManager {
   // Properties (define with clear types)
 

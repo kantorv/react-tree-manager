@@ -4,13 +4,12 @@ import {Box} from '@mui/material';
 
 import { TreeManager } from '../lib/widgets/tree-view-next/helpers/treemgmt'
 import { WideRecursiveList } from '../lib/widgets/tree-view-next/WideListTree';
+import { type TreeNode } from '..';
+
 
 type TreeViewComponentProps = {
     tree: TreeNode[];
 };
-  
-
-
 
 
  const TreeViewWrapper = (props:TreeViewComponentProps)=> {
