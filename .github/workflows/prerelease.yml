@@ -1,0 +1,141 @@
+name: prerelease
+
+permissions:
+  contents: write
+  id-token: write
+  pull-requests: read
+
+on:
+  pull_request:
+    types:
+      - synchronize
+    branches:
+      - development
+
+
+jobs:
+  samplejob:
+    if: ${{ !contains(github.event.head_commit.message, '--skip-ci') }}
+
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    name: Run tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Git
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+
+
+      - name: Install GitHub CLI
+        run: sudo apt-get install -y gh
+
+      - name: Authenticate GitHub CLI
+        run: gh auth setup-git
+
+        
+
+
+      - name: Check if PR already exists # future prerelease support
+        id: check_pr
+        run: |
+          BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
+          REPO_NAME="${{ github.repository }}"
+          PRDATA=$(gh pr list --head  $BRANCH_NAME  --json number --jq '.')
+          PR_NUM=$(echo $PRDATA | jq -r '.[].number')
+          PR_LABEL=$(gh api repos/$REPO_NAME/pulls/$PR_NUM --jq '.labels.[].name')
+          echo "pr_num=$PR_NUM" >> $GITHUB_ENV
+          echo "release_type=$PR_LABEL" >> $GITHUB_ENV
+
+          
+      - name: Last commit message
+        run: |
+          echo Last commit: ${{ github.event.head_commit.message }}
+
+
+
+
+
+    #############################################
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: 'yarn'
+          registry-url: https://registry.npmjs.org
+
+
+
+      - name: Load node_modules from cache
+        id: node_modules_cache
+        uses: actions/cache@v4
+        with:
+          path: ./node_modules
+          key: node_modules-${{ hashFiles('./yarn.lock') }}
+
+      - name: install packages
+        if: steps.node_modules_cache.outputs.cache-hit != 'true'
+        env:
+          CI: false
+        run: |
+          yarn install
+
+
+
+      - name: Build package
+        run: yarn build 
+        env:
+          CI: false
+
+      
+
+
+
+      
+      - name: check tag
+        run: | 
+          current_tag=$(git describe --tags --abbrev=0)
+          echo "$current_tag"
+          git checkout "${{ github.event.pull_request.head.ref }}"
+
+          set +e
+          echo "$current_tag" | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+-rc\.[0-9]+$'
+          status=$?
+          set -e
+
+          if [ $status -eq 0 ]; then
+            echo "Tag matches x.y.z-rc.N format. :: $current_tag"
+            yarn version --prerelease
+          else
+            echo "Tag does not match x.y.z-rc.N format. :: $current_tag"
+            flag="--pre$release_type"
+            yarn version $flag --preid rc
+          fi
+
+
+          git push --follow-tags
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+
+
+
+
+
+      - name: NPM publish
+        run: |
+          npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
+          npm publish --tag next
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+
+  
