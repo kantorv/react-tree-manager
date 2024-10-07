@@ -106,10 +106,10 @@ const WideRecursiveList = (props: WideRecursiveListProps) => {
       
       (theme) => ({
         width: '100%',
-        background: theme.palette.primary.light,
-        ...theme.applyStyles('dark', {
-          background: theme.palette.primary.dark,
-        }),
+        // background: theme.palette.primary.light,
+        // ...theme.applyStyles('dark', {
+        //   background: theme.palette.primary.dark,
+        // }),
         //background: theme.palette.background.paper,
         
       })
