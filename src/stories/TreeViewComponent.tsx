@@ -37,10 +37,7 @@ type TreeViewComponentProps = {
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          background: 'wheat',
           height: '100%',
-          maxWidth: 400,
-          minHeight: 800,
         }}
       >
         <Box
