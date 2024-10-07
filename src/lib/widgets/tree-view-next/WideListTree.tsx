@@ -101,7 +101,21 @@ const WideRecursiveList = (props: WideRecursiveListProps) => {
 
   return (
     <List
-      sx={{ width: '100%', bgcolor: 'background.paper' }}
+
+    sx={[
+      
+      (theme) => ({
+        width: '100%',
+        background: theme.palette.primary.light,
+        ...theme.applyStyles('dark', {
+          background: theme.palette.primary.dark,
+        }),
+        //background: theme.palette.background.paper,
+        
+      })
+    ]}
+
+
       component="nav"
       data-testid="treeviewer-wide-root"
 
