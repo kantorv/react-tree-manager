@@ -71,14 +71,6 @@ const LeafItem = (props: LeafItemProps) => {
         //     },
         //   }),
         // ]}
-
-        
-          sx={{
-            color: theme.palette.common.black,
-            ...theme.applyStyles('dark', {
-              color: theme.palette.common.white
-            }),
-          }}  
         />
       </ListItemIcon>
       <ListItemText primary={itemText} />
