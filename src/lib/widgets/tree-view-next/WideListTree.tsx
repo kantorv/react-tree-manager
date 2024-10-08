@@ -3,6 +3,18 @@ import { List, ListSubheader, ListItemText, ListItemIcon, ListItemButton, Collap
 import { ExpandMore, KeyboardArrowRight as KeyboardArrowRightIcon, Article as ArticleIcon, Folder as FolderIcon } from '@mui/icons-material'
 import { uuidv4 } from './helpers/utils';
 import { type TreeNode } from '../../..';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+const theme = createTheme({
+  colorSchemes: {
+    dark: true,
+  },
+});
+
+export function ThemeWrapper(props: { children: React.ReactNode}) {
+  return <ThemeProvider theme={theme}>{props.children}</ThemeProvider>;
+}
+
 
 
 type LeafItemProps = {
@@ -19,7 +31,14 @@ const LeafItem = (props: LeafItemProps) => {
   return (
     <ListItemButton divider onClick={() => onSelect(node)}> 
       <ListItemIcon>
-        <ArticleIcon />
+        <ArticleIcon 
+          sx={{
+            color: theme.palette.primary.light,
+            ...theme.applyStyles('dark', {
+              color: theme.palette.primary.dark,
+            }),
+          }}  
+        />
       </ListItemIcon>
       <ListItemText primary={itemText} />
     </ListItemButton>
@@ -100,6 +119,7 @@ const WideRecursiveList = (props: WideRecursiveListProps) => {
   //const _id = uuidv4();
 
   return (
+    <ThemeWrapper>
     <List
 
     sx={[
@@ -146,7 +166,10 @@ const WideRecursiveList = (props: WideRecursiveListProps) => {
         </React.Fragment>
       ))}
     </List>
+    </ThemeWrapper>
   );
 };
 
 export { WideRecursiveList };
+
+
