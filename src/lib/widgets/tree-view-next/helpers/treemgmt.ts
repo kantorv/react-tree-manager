@@ -1,4 +1,4 @@
-import { type TreeNode } from '../../../..';
+import { type TreeNode } from '../../../../app.types';
 
 
 class TreeManager {
