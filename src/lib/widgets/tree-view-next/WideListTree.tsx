@@ -119,7 +119,7 @@ const WideRecursiveList = (props: WideRecursiveListProps) => {
   //const _id = uuidv4();
 
   return (
-    <ThemeWrapper>
+     
     <List
 
     sx={[
@@ -166,7 +166,7 @@ const WideRecursiveList = (props: WideRecursiveListProps) => {
         </React.Fragment>
       ))}
     </List>
-    </ThemeWrapper>
+   
   );
 };
 
