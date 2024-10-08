@@ -47,9 +47,9 @@ const LeafItem = (props: LeafItemProps) => {
 
          sx={[
           (theme) => ({
-            color: theme.palette.primary.main,
+            color: theme.palette.common.black,
             ...theme.applyStyles('dark', {
-              color: theme.palette.secondary.main
+              color: theme.palette.common.white
             }),
           }),
         ]}
@@ -90,7 +90,18 @@ const TreeItemHeader = (props: TreeItemHeaderProps) => {
   return (
     <ListItemButton onClick={() => onClick(node.path)} divider>
       <ListItemIcon>
-        <FolderIcon />
+        <FolderIcon   
+        
+        sx={[
+          (theme) => ({
+            color: theme.palette.common.black,
+            ...theme.applyStyles('dark', {
+              color: theme.palette.common.white
+            }),
+          }),
+        ]}
+        
+        />
       </ListItemIcon>
       <ListItemText primary={text} />
       {expanded ? (
