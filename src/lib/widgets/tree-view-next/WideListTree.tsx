@@ -94,9 +94,9 @@ const TreeItemHeader = (props: TreeItemHeaderProps) => {
         
         sx={[
           (theme) => ({
-            color: theme.palette.common.black,
+            color: theme.palette.primary.dark,
             ...theme.applyStyles('dark', {
-              color: theme.palette.common.white
+              color: theme.palette.primary.light
             }),
           }),
         ]}
