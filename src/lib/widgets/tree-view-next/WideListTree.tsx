@@ -32,11 +32,11 @@ const LeafItem = (props: LeafItemProps) => {
   const path = node.path
   const itemText = path.split('/').pop()
 
-  const isDarkMode = useIsDarkMode();
+  // const isDarkMode = useIsDarkMode();
 
-  React.useEffect(()=>{
-    console.log("[react-tree-manager] isDarkMode:", isDarkMode)
-  },[isDarkMode])
+  // React.useEffect(()=>{
+  //   console.log("[react-tree-manager] isDarkMode:", isDarkMode)
+  // },[isDarkMode])
 
   return (
     <ListItemButton divider onClick={() => onSelect(node)}> 
@@ -44,9 +44,9 @@ const LeafItem = (props: LeafItemProps) => {
         <ArticleIcon 
          // sx={[isDarkMode && { filter: 'invert(1)' }]}
           sx={{
-          //  color: theme.palette.primary.light,
+            color: theme.palette.common.white,
             ...theme.applyStyles('dark', {
-              filter: 'invert(1)' 
+              color: theme.palette.common.black
             }),
           }}  
         />
