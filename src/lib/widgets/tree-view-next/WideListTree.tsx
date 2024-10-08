@@ -42,13 +42,13 @@ const LeafItem = (props: LeafItemProps) => {
     <ListItemButton divider onClick={() => onSelect(node)}> 
       <ListItemIcon>
         <ArticleIcon 
-          sx={[isDarkMode && { filter: 'invert(1)' }]}
-          // sx={{
-          //   color: theme.palette.primary.light,
-          //   ...theme.applyStyles('dark', {
-          //     color: theme.palette.primary.dark,
-          //   }),
-          // }}  
+         // sx={[isDarkMode && { filter: 'invert(1)' }]}
+          sx={{
+          //  color: theme.palette.primary.light,
+            ...theme.applyStyles('dark', {
+              filter: 'invert(1)' 
+            }),
+          }}  
         />
       </ListItemIcon>
       <ListItemText primary={itemText} />
