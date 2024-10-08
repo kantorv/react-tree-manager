@@ -45,14 +45,14 @@ const LeafItem = (props: LeafItemProps) => {
          // sx={[isDarkMode && { filter: 'invert(1)' }]}
 
 
-         sx={[
-          (theme) => ({
-            color: theme.palette.common.black,
-            ...theme.applyStyles('dark', {
-              color: theme.palette.common.white
-            }),
-          }),
-        ]}
+        //  sx={[
+        //     (theme) => ({
+        //       color: theme.palette.common.black,
+        //       ...theme.applyStyles('dark', {
+        //         color: theme.palette.common.white
+        //       }),
+        //     }),
+        //   ]}
 
 
         //  sx={[
@@ -92,14 +92,14 @@ const TreeItemHeader = (props: TreeItemHeaderProps) => {
       <ListItemIcon>
         <FolderIcon   
         
-        sx={[
-          (theme) => ({
-            color: theme.palette.primary.dark,
-            ...theme.applyStyles('dark', {
-              color: theme.palette.primary.light
-            }),
-          }),
-        ]}
+          // sx={[
+          //   (theme) => ({
+          //     color: theme.palette.primary.dark,
+          //     ...theme.applyStyles('dark', {
+          //       color: theme.palette.primary.light
+          //     }),
+          //   }),
+          // ]}
         
         />
       </ListItemIcon>
