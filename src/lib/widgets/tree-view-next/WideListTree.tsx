@@ -3,23 +3,14 @@ import { List, ListSubheader, ListItemText, ListItemIcon, ListItemButton, Collap
 import { ExpandMore, KeyboardArrowRight as KeyboardArrowRightIcon, Article as ArticleIcon, Folder as FolderIcon } from '@mui/icons-material'
 import { uuidv4 } from './helpers/utils';
 //import { type TreeNode } from '../../../app.types';
-import {  createTheme, useTheme } from '@mui/material/styles';
 import { type TreeNode } from './helpers/treemgmt'; 
 
 
 
-const theme = createTheme({
-  colorSchemes: {
-    dark: true,
-  },
-});
+ 
 
 
-const useIsDarkMode = () => {
-  const theme = useTheme();
-  return theme.palette.mode === 'dark';
-};
-
+ 
 
 type LeafItemProps = {
   onSelect: (node: TreeNode) => void, // TODO: check if node_id is better
@@ -43,12 +34,18 @@ const LeafItem = (props: LeafItemProps) => {
       <ListItemIcon>
         <ArticleIcon 
          // sx={[isDarkMode && { filter: 'invert(1)' }]}
-          sx={{
+
+         sx={[
+          (theme) => ({
             color: theme.palette.common.black,
             ...theme.applyStyles('dark', {
               color: theme.palette.common.white
             }),
-          }}  
+          }),
+        ]}
+
+        
+ 
         />
       </ListItemIcon>
       <ListItemText primary={itemText} />
