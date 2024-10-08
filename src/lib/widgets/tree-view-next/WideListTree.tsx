@@ -3,18 +3,19 @@ import { List, ListSubheader, ListItemText, ListItemIcon, ListItemButton, Collap
 import { ExpandMore, KeyboardArrowRight as KeyboardArrowRightIcon, Article as ArticleIcon, Folder as FolderIcon } from '@mui/icons-material'
 import { uuidv4 } from './helpers/utils';
 import { type TreeNode } from '../../..';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-
+import {  createTheme, useTheme } from '@mui/material/styles';
+ 
 const theme = createTheme({
   colorSchemes: {
     dark: true,
   },
 });
 
-export function ThemeWrapper(props: { children: React.ReactNode}) {
-  return <ThemeProvider theme={theme}>{props.children}</ThemeProvider>;
-}
 
+const useIsDarkMode = () => {
+  const theme = useTheme();
+  return theme.palette.mode === 'dark';
+};
 
 
 type LeafItemProps = {
@@ -28,16 +29,23 @@ const LeafItem = (props: LeafItemProps) => {
   const path = node.path
   const itemText = path.split('/').pop()
 
+  const isDarkMode = useIsDarkMode();
+
+  React.useEffect(()=>{
+    console.log("[react-tree-manager] isDarkMode:", isDarkMode)
+  },[isDarkMode])
+
   return (
     <ListItemButton divider onClick={() => onSelect(node)}> 
       <ListItemIcon>
         <ArticleIcon 
-          sx={{
-            color: theme.palette.primary.light,
-            ...theme.applyStyles('dark', {
-              color: theme.palette.primary.dark,
-            }),
-          }}  
+          sx={[isDarkMode && { filter: 'invert(1)' }]}
+          // sx={{
+          //   color: theme.palette.primary.light,
+          //   ...theme.applyStyles('dark', {
+          //     color: theme.palette.primary.dark,
+          //   }),
+          // }}  
         />
       </ListItemIcon>
       <ListItemText primary={itemText} />
