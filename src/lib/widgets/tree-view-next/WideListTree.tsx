@@ -3,14 +3,23 @@ import { List, ListSubheader, ListItemText, ListItemIcon, ListItemButton, Collap
 import { ExpandMore, KeyboardArrowRight as KeyboardArrowRightIcon, Article as ArticleIcon, Folder as FolderIcon } from '@mui/icons-material'
 import { uuidv4 } from './helpers/utils';
 //import { type TreeNode } from '../../../app.types';
+// import {  createTheme, useTheme } from '@mui/material/styles';
 import { type TreeNode } from './helpers/treemgmt'; 
 
 
 
- 
+// const theme = createTheme({
+//   colorSchemes: {
+//     dark: true,
+//   },
+// });
 
 
- 
+// const useIsDarkMode = () => {
+//   const theme = useTheme();
+//   return theme.palette.mode === 'dark';
+// };
+
 
 type LeafItemProps = {
   onSelect: (node: TreeNode) => void, // TODO: check if node_id is better
@@ -35,17 +44,41 @@ const LeafItem = (props: LeafItemProps) => {
         <ArticleIcon 
          // sx={[isDarkMode && { filter: 'invert(1)' }]}
 
+
          sx={[
           (theme) => ({
-            color: theme.palette.common.black,
+            color: theme.palette.primary.main,
             ...theme.applyStyles('dark', {
-              color: theme.palette.common.white
+              color: theme.palette.secondary.main
             }),
           }),
         ]}
 
+
+        //  sx={[
+        //   (theme) => ({
+        //     color: '#fff',
+        //     backgroundColor: theme.palette.primary.main,
+        //     ...theme.applyStyles('dark', {
+        //       backgroundColor: theme.palette.secondary.main,
+        //     }),
+        //     '&:hover': {
+        //       boxShadow: theme.shadows[3],
+        //       backgroundColor: theme.palette.primary.dark,
+        //       ...theme.applyStyles('dark', {
+        //         backgroundColor: theme.palette.secondary.dark,
+        //       }),
+        //     },
+        //   }),
+        // ]}
+
         
- 
+          sx={{
+            color: theme.palette.common.black,
+            ...theme.applyStyles('dark', {
+              color: theme.palette.common.white
+            }),
+          }}  
         />
       </ListItemIcon>
       <ListItemText primary={itemText} />
