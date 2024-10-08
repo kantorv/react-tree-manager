@@ -44,9 +44,9 @@ const LeafItem = (props: LeafItemProps) => {
         <ArticleIcon 
          // sx={[isDarkMode && { filter: 'invert(1)' }]}
           sx={{
-            color: theme.palette.common.white,
+            color: theme.palette.common.black,
             ...theme.applyStyles('dark', {
-              color: theme.palette.common.black
+              color: theme.palette.common.white
             }),
           }}  
         />
