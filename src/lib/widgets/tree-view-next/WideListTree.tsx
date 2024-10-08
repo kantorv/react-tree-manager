@@ -2,9 +2,12 @@ import * as React from 'react';
 import { List, ListSubheader, ListItemText, ListItemIcon, ListItemButton, Collapse } from '@mui/material'
 import { ExpandMore, KeyboardArrowRight as KeyboardArrowRightIcon, Article as ArticleIcon, Folder as FolderIcon } from '@mui/icons-material'
 import { uuidv4 } from './helpers/utils';
-import { type TreeNode } from '../../../app.types';
+//import { type TreeNode } from '../../../app.types';
 import {  createTheme, useTheme } from '@mui/material/styles';
- 
+import { type TreeNode } from './helpers/treemgmt'; 
+
+
+
 const theme = createTheme({
   colorSchemes: {
     dark: true,
