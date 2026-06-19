@@ -119,11 +119,10 @@ jobs:
       - id: deploy-storybook
         uses: bitovi/github-actions-storybook-to-github-pages@v1.0.4
         with:
+          commit: false
           install_command: yarn install 
           build_command: yarn build-storybook
           path: storybook-static
-        env:
-          GH_TOKEN: ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}
 
       # - name: Create Release
       #   id: create_release
