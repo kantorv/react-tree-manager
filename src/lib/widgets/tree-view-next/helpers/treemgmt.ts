@@ -1,3 +1,12 @@
+// import { type TreeNode } from '../../../../app.types';
+interface TreeNode {
+  children?: TreeNode[];
+  path: string;
+  type: 'blob' | 'tree';
+}
+
+
+
 class TreeManager {
   // Properties (define with clear types)
 
@@ -61,4 +70,6 @@ type ExtractInstanceType<T> = T extends new (...args: any[]) => infer R
   : any;
 type TreeManagerInstance = ExtractInstanceType<typeof TreeManager>;
 
-export type { TreeManagerInstance };
+export type { TreeManagerInstance, TreeNode };
+
+

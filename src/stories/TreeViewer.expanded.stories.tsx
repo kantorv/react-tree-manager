@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { useState,useEffect } from 'react';
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-webpack5";
 import { Box } from "@mui/material";
 import { TreeViewer } from "..";
 import { TreeManager } from '../lib/widgets/tree-view-next/helpers/treemgmt';
-
+import { type TreeNode } from '..';
 
 
 
@@ -40,10 +40,9 @@ type TreeViewComponentProps = {
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          background: 'wheat',
           height: '100%',
-          maxWidth: 400,
-          minHeight: 800,
+        //   maxWidth: 400,
+        //   minHeight: 800,
         }}
       >
         <Box

@@ -1,4 +1,4 @@
-import type { Preview } from "@storybook/react";
+import type { Preview } from "@storybook/react-webpack5";
 
 import { ThemeProvider, CssBaseline, createTheme } from '@mui/material';
 import { withThemeFromJSXProvider } from '@storybook/addon-themes';

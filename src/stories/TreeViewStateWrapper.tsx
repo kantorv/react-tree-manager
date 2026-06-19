@@ -4,13 +4,12 @@ import {Box} from '@mui/material';
 
 import { TreeManager } from '../lib/widgets/tree-view-next/helpers/treemgmt'
 import { WideRecursiveList } from '../lib/widgets/tree-view-next/WideListTree';
+import { type TreeNode } from '..';
+
 
 type TreeViewComponentProps = {
     tree: TreeNode[];
 };
-  
-
-
 
 
  const TreeViewWrapper = (props:TreeViewComponentProps)=> {
@@ -36,10 +35,7 @@ type TreeViewComponentProps = {
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          background: 'wheat',
           height: '100%',
-          maxWidth: 400,
-          minHeight: 800,
         }}
       >
         <Box
