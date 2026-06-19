@@ -1,6 +1,6 @@
 {
   "name": "react-tree-manager",
-  "version": "0.11.4-rc.23",
+  "version": "0.11.4-rc.26",
   "private": false,
   "main": "./build/index.js",
   "module": "./build/index.es.js",
