@@ -2,7 +2,23 @@ import * as React from 'react';
 import { List, ListSubheader, ListItemText, ListItemIcon, ListItemButton, Collapse } from '@mui/material'
 import { ExpandMore, KeyboardArrowRight as KeyboardArrowRightIcon, Article as ArticleIcon, Folder as FolderIcon } from '@mui/icons-material'
 import { uuidv4 } from './helpers/utils';
-import { type TreeNode } from '../../..';
+//import { type TreeNode } from '../../../app.types';
+// import {  createTheme, useTheme } from '@mui/material/styles';
+import { type TreeNode } from './helpers/treemgmt'; 
+
+
+
+// const theme = createTheme({
+//   colorSchemes: {
+//     dark: true,
+//   },
+// });
+
+
+// const useIsDarkMode = () => {
+//   const theme = useTheme();
+//   return theme.palette.mode === 'dark';
+// };
 
 
 type LeafItemProps = {
@@ -16,10 +32,46 @@ const LeafItem = (props: LeafItemProps) => {
   const path = node.path
   const itemText = path.split('/').pop()
 
+  // const isDarkMode = useIsDarkMode();
+
+  // React.useEffect(()=>{
+  //   console.log("[react-tree-manager] isDarkMode:", isDarkMode)
+  // },[isDarkMode])
+
   return (
     <ListItemButton divider onClick={() => onSelect(node)}> 
       <ListItemIcon>
-        <ArticleIcon />
+        <ArticleIcon 
+         // sx={[isDarkMode && { filter: 'invert(1)' }]}
+
+
+        //  sx={[
+        //     (theme) => ({
+        //       color: theme.palette.common.black,
+        //       ...theme.applyStyles('dark', {
+        //         color: theme.palette.common.white
+        //       }),
+        //     }),
+        //   ]}
+
+
+        //  sx={[
+        //   (theme) => ({
+        //     color: '#fff',
+        //     backgroundColor: theme.palette.primary.main,
+        //     ...theme.applyStyles('dark', {
+        //       backgroundColor: theme.palette.secondary.main,
+        //     }),
+        //     '&:hover': {
+        //       boxShadow: theme.shadows[3],
+        //       backgroundColor: theme.palette.primary.dark,
+        //       ...theme.applyStyles('dark', {
+        //         backgroundColor: theme.palette.secondary.dark,
+        //       }),
+        //     },
+        //   }),
+        // ]}
+        />
       </ListItemIcon>
       <ListItemText primary={itemText} />
     </ListItemButton>
@@ -38,7 +90,18 @@ const TreeItemHeader = (props: TreeItemHeaderProps) => {
   return (
     <ListItemButton onClick={() => onClick(node.path)} divider>
       <ListItemIcon>
-        <FolderIcon />
+        <FolderIcon   
+        
+          // sx={[
+          //   (theme) => ({
+          //     color: theme.palette.primary.dark,
+          //     ...theme.applyStyles('dark', {
+          //       color: theme.palette.primary.light
+          //     }),
+          //   }),
+          // ]}
+        
+        />
       </ListItemIcon>
       <ListItemText primary={text} />
       {expanded ? (
@@ -100,8 +163,23 @@ const WideRecursiveList = (props: WideRecursiveListProps) => {
   //const _id = uuidv4();
 
   return (
+     
     <List
-      sx={{ width: '100%', bgcolor: 'background.paper' }}
+
+    sx={[
+      
+      (theme) => ({
+        width: '100%',
+        // background: theme.palette.primary.light,
+        // ...theme.applyStyles('dark', {
+        //   background: theme.palette.primary.dark,
+        // }),
+        //background: theme.palette.background.paper,
+        
+      })
+    ]}
+
+
       component="nav"
       data-testid="treeviewer-wide-root"
 
@@ -132,7 +210,10 @@ const WideRecursiveList = (props: WideRecursiveListProps) => {
         </React.Fragment>
       ))}
     </List>
+   
   );
 };
 
 export { WideRecursiveList };
+
+
