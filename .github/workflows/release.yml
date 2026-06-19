@@ -67,7 +67,10 @@ jobs:
           cache: 'yarn'
           registry-url: https://registry.npmjs.org
 
-
+      # Trusted publishing (OIDC) requires npm 11.5.1+. The npm version bundled
+      # with actions/setup-node's Node release is usually older than this.
+      - name: Update npm for trusted publishing support
+        run: npm install -g npm@latest
 
       - name: Install dependencies
         run: yarn install
@@ -105,12 +108,9 @@ jobs:
         run: yarn build --silent 2>/dev/null # TODO: resolve "Module level directives cause errors when bundled, 'use client' was ignored."
 
       - name: Release-it
-        run: | # # -i  ${{ env.release_type }}
-          npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
-          yarn release --ci  --increment=$release_type
+        run: yarn release --ci --increment=$release_type
         env:
-          NPM_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
 
       - id: deploy-storybook
@@ -136,6 +136,3 @@ jobs:
       #       - Second Change
       #     draft: false
       #     prerelease: false
-
-
-      # npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
