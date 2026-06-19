@@ -1,11 +1,10 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "ES2022",
     "lib": [
-      "es6",
+      "ES2022",
       "dom",
-      "dom.iterable",
-      "esnext"
+      "dom.iterable"
     ],
     "allowJs": true,
     "skipLibCheck": true,
@@ -15,24 +14,21 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "strictNullChecks": true ,
 
-      // enabling declaration (.d.ts) emit
+    // enabling declaration (.d.ts) emit
     "declaration": true,
     // optional - in general it's a good practice to decouple declaration files from your actual transpiled JavaScript files
-   "declarationDir": "build/dts",
-   // optional if you're using babel to transpile TS -> JS
-   "emitDeclarationOnly": true
+    "declarationDir": "build/dts",
+    // optional if you're using babel to transpile TS -> JS
+    "emitDeclarationOnly": true
   },
   "include": [
     "src"
   ],
-  "exclude": ["node_modules","build"]
+  "exclude": ["node_modules", "build"]
 }
