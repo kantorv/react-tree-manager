@@ -115,14 +115,30 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
+      - name: Build storybook
+        run: yarn build-storybook
+         
+        
 
-      - id: deploy-storybook
-        uses: bitovi/github-actions-storybook-to-github-pages@v1.0.4
+      - name: Setup Pages
+        uses: actions/configure-pages@v6
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v5
         with:
-          commit: false
-          install_command: yarn install 
-          build_command: yarn build-storybook
-          path: storybook-static
+          path: './storybook-static'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
+        
+      # - id: deploy-storybook
+      #   uses: bitovi/github-actions-storybook-to-github-pages@v1.0.4
+      #   with:
+      #     commit: false
+      #     install_command: yarn install 
+      #     build_command: yarn build-storybook
+      #     path: storybook-static
 
       # - name: Create Release
       #   id: create_release
