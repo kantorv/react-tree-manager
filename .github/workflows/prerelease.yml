@@ -26,7 +26,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -68,7 +68,7 @@ jobs:
     #############################################
 
       - name: Set up Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: lts/*
           cache: 'yarn'
@@ -127,11 +127,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: NPM publish
-        run: |
-          npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
-          npm publish --tag beta
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+      # - name: NPM publish
+      #   run: |
+      #     npm publish --tag beta
+      #   env:
+      #     NPM_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
 
   
