@@ -7,7 +7,7 @@ import url        from '@rollup/plugin-url'
 import svgr       from '@svgr/rollup'
 import dts        from 'rollup-plugin-dts'
 
-import packageJson from "./package.json";
+import packageJson from "./package.json" with { type: "json" };
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default [{
@@ -28,7 +28,11 @@ export default [{
     peerDepsExternal(),
     resolve(), 
     commonjs(), 
-    typescript(),
+    typescript({
+      compilerOptions: {
+        outDir: "build",
+      },
+    }),
     postcss(),
     url(),
     svgr(),
