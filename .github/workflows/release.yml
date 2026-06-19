@@ -106,7 +106,7 @@ jobs:
 
 
       - name: Build package
-        run: yarn build --silent 2>/dev/null # TODO: resolve "Module level directives cause errors when bundled, 'use client' was ignored."
+        run: yarn build # --silent 2>/dev/null # TODO: resolve "Module level directives cause errors when bundled, 'use client' was ignored."
         env:
           CI: false
 
@@ -117,7 +117,7 @@ jobs:
       
 
       - id: deploy-storybook
-        uses: bitovi/github-actions-storybook-to-github-pages@v1.0.3
+        uses: bitovi/github-actions-storybook-to-github-pages@v1.0.4
         with:
           install_command: yarn install 
           build_command: yarn build-storybook
