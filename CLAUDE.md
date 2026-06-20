@@ -67,8 +67,7 @@ Trusted publishing is enabled; the workflow upgrades npm to support OIDC (`npm i
 
 ## Things To Know
 
-- React 19 + `@types/react` 19; `react-scripts@5.0.1` (CRA — Jest wiring is from CRA, not from a bare Jest install). `peerDependencies` pin `react >=18`.
-- MUI v7, XState v5 + `@xstate/react` are dependencies (XState is currently unused by source; README still credits it).
+- MUI v7 (ready for v9 upgrade), XState v5 + `@xstate/react` are dependencies (XState is currently unused by source; README still credits it).
 - TypeScript 6, target ES2022, `moduleResolution: "bundler"`. `emitDeclarationOnly: true` — Rollup emits declarations via `rollup-plugin-dts`.
 - No lint/format script runs in CI; ESLint config exists but isn't invoked by `yarn test` or `yarn build`.
 - Tests cover more than render-only checks: `src/lib/widgets/tree-view-next/TreeViewer.test.tsx` exercises default labelling, `renderLabel` override, `getDataTestId` (depth=1 at root, N+1 below), `expanded`-prop resync after mount, leaf DOM-identity preservation across rerender, click→`onSelect` wiring, `TreeManager` DFS ordering, and that stub methods don't throw and log `'(stub)'`.
