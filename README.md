@@ -25,9 +25,9 @@ interface TreeNode {
 }
 ```
 
-`TreeViewer` : React Component - MUI5 based expandable list
+`TreeViewer` : React Component — MUI based expandable list. Optional props `renderLabel(node)` and `getDataTestId(node, depth)` make it usable outside `/`-path domains and with per-node test ids — see the source JSDoc for details.
 
-`TreeManager` : TS Class for tree/node management, (sample methods: `traverse`,`add`,`remove` etc)
+`TreeManager` : TS Class for tree/node management. **Only `traverse` is implemented in this release**; it walks the tree depth-first, parent before children, in declaration order. The other would-be helpers (`add`, `delete`, `move`) are intentionally stubbed — wired up but not mutating the tree. See `CHANGELOG.md` for the stability matrix.
 
 ## Usage
 

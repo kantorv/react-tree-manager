@@ -1,35 +1,38 @@
-// import { type TreeNode } from '../../../../app.types';
+/**
+ * A single node in the tree consumed by `TreeManager.traverse` and `TreeViewer`.
+ *
+ * `path` is intended to be `/`-separated by convention, but no public API
+ * method literally depends on `/` other than the default leaf labelling in
+ * `TreeViewer` (consumers can override that via `renderLabel`).
+ */
 interface TreeNode {
   children?: TreeNode[];
   path: string;
   type: 'blob' | 'tree';
 }
 
-
-
 class TreeManager {
-  // Properties (define with clear types)
-
   public tree: TreeNode[];
 
-  // Constructor (initialize properties)
   constructor(tree?: TreeNode[]) {
-    //  console.log("[TreeManager.constructor] started: input:", JSON.stringify(tree))
     this.tree = tree ?? [];
   }
 
-
-
   /**
-    * Depth-first traversal of the tree.
-    * @param callback Function to be called on each node.
-    */
+   * Depth-first traversal of the tree.
+   *
+   * **Contract:** the callback is invoked on the parent *before* its
+   * children, and the children are visited in their declaration order.
+   * Roots are visited in declaration order. This ordering is part of the
+   * stable API — downstream code (e.g. id-collection patterns) depends on
+   * it.
+   *
+   * @param callback Function called once per node in DFS order.
+   */
   public traverse(callback: (node: TreeNode) => void): void {
     const depthFirst = (node: TreeNode): void => {
-      // Execute the callback on the current node
       callback(node);
 
-      // Recursively traverse the children if they exist
       if (node.children) {
         for (const child of node.children) {
           depthFirst(child);
@@ -37,39 +40,30 @@ class TreeManager {
       }
     };
 
-    // Start traversal from each root node in the tree
     for (const rootNode of this.tree) {
       depthFirst(rootNode);
     }
   }
 
-
-
+  // NOTE: `add`, `delete`, and `move` are intentionally stubs in this
+  // release. They only emit a console.log so library users can confirm the
+  // call is wired up; they do not mutate the tree. Treat them as a
+  // placeholder until a real implementation lands. See CHANGELOG.md for
+  // the stability matrix.
   public add(node: TreeNode, tree: TreeNode[]): TreeNode[] | void {
-    console.log('[TreeManager.add]', node.path, parent, tree);
+    console.log('[TreeManager.add] (stub)', { path: node.path, tree });
   }
 
   public delete(type: 'blob' | 'tree', path: string): void {
-    console.log('[TreeManager.delete]:', { type, path });
+    console.log('[TreeManager.delete] (stub):', { type, path });
   }
 
   public move(from: string, to: string): void {
-    console.log('[TreeManager.move]:', { from, to });
+    console.log('[TreeManager.move] (stub):', { from, to });
   }
-
-
 }
 
 export { TreeManager };
 
-// https://zirkelc.dev/posts/extract-class-methods
-type ExtractInstanceType<T> = T extends new (...args: any[]) => infer R
-  ? R
-  : T extends { prototype: infer P }
-  ? P
-  : any;
-type TreeManagerInstance = ExtractInstanceType<typeof TreeManager>;
-
-export type { TreeManagerInstance, TreeNode };
-
-
+export type TreeManagerInstance = InstanceType<typeof TreeManager>;
+export type { TreeNode };
