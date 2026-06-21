@@ -216,6 +216,29 @@ describe('TreeViewer', () => {
 });
 
 describe('TreeManager', () => {
+  // Shared shape used across the new helper-method tests. Mirror of the
+  // alpha/epsilon tree used inline below; kept here so all the helper
+  // tests reference the same DFS reference order.
+  const tree: TreeNode[] = [
+    {
+      type: 'tree',
+      path: 'alpha',
+      children: [
+        { type: 'blob', path: 'alpha/beta' },
+        {
+          type: 'tree',
+          path: 'alpha/gamma',
+          children: [{ type: 'blob', path: 'alpha/gamma/delta' }],
+        },
+      ],
+    },
+    {
+      type: 'tree',
+      path: 'epsilon',
+      children: [{ type: 'blob', path: 'epsilon/zeta' }],
+    },
+  ];
+
   test('traverse visits nodes depth-first, parent before children, in declaration order', () => {
     // Tree:
     //   alpha
@@ -272,5 +295,143 @@ describe('TreeManager', () => {
     );
     expect(stubCalls.length).toBeGreaterThanOrEqual(3);
     consoleLogSpy.mockRestore();
+  });
+
+  test('traverse with { includeRoot: false } skips roots', () => {
+    // Same sample as the basic DFS test, but includeRoot:false should drop
+    // 'alpha' and 'epsilon' from the visit list and only yield the
+    // descendants — useful for "exclude the selection itself from the
+    // descendants filter" patterns.
+    const visited: string[] = [];
+    new TreeManager(tree).traverse(
+      (node) => visited.push(node.path),
+      { includeRoot: false },
+    );
+    expect(visited).toEqual([
+      'alpha/beta',
+      'alpha/gamma',
+      'alpha/gamma/delta',
+      'epsilon/zeta',
+    ]);
+  });
+
+  test('traverse with custom getChildren pulls from a non-`children` key', () => {
+    // Domain node whose children live under `kids` — proves the
+    // generic-with-options flow without forcing a runtime cast at the
+    // call site.
+    interface DomainNode {
+      id: string;
+      kids?: DomainNode[];
+    }
+    const domain: DomainNode[] = [
+      {
+        id: 'a',
+        kids: [{ id: 'a/k1' }, { id: 'a/k2', kids: [{ id: 'a/k2/u' }] }],
+      },
+      { id: 'b' },
+    ];
+    const visited: string[] = [];
+    new TreeManager<DomainNode>(domain).traverse(
+      (node) => visited.push(node.id),
+      { getChildren: (node) => node.kids ?? [] },
+    );
+    expect(visited).toEqual(['a', 'a/k1', 'a/k2', 'a/k2/u', 'b']);
+  });
+
+  test('toArray returns the same nodes as traverse, in DFS order', () => {
+    expect(new TreeManager(tree).toArray().map((n) => n.path)).toEqual([
+      'alpha',
+      'alpha/beta',
+      'alpha/gamma',
+      'alpha/gamma/delta',
+      'epsilon',
+      'epsilon/zeta',
+    ]);
+  });
+
+  test('toArray({ includeRoot: false }) excludes roots', () => {
+    expect(
+      new TreeManager(tree)
+        .toArray({ includeRoot: false })
+        .map((n) => n.path),
+    ).toEqual([
+      'alpha/beta',
+      'alpha/gamma',
+      'alpha/gamma/delta',
+      'epsilon/zeta',
+    ]);
+  });
+
+  test('collectIds returns ids in DFS, parent-before-children order, via keyof N typing', () => {
+    const ids = new TreeManager(tree).collectIds('path');
+    // Return type is `TreeNode['path'][]` (i.e. `string[]`) without
+    // needing a runtime cast — locks the typed-key behaviour this
+    // release's generic refactor introduced.
+    expect(ids).toEqual([
+      'alpha',
+      'alpha/beta',
+      'alpha/gamma',
+      'alpha/gamma/delta',
+      'epsilon',
+      'epsilon/zeta',
+    ]);
+  });
+
+  test('collectIds with includeRoot: false returns descendants only', () => {
+    expect(
+      new TreeManager(tree).collectIds('path', { includeRoot: false }),
+    ).toEqual([
+      'alpha/beta',
+      'alpha/gamma',
+      'alpha/gamma/delta',
+      'epsilon/zeta',
+    ]);
+  });
+
+  test('findBy returns the first matching node (DFS), or null when nothing matches', () => {
+    const tm = new TreeManager(tree);
+    expect(tm.findBy((n) => n.path === 'alpha/gamma/delta')?.path).toBe(
+      'alpha/gamma/delta',
+    );
+    expect(tm.findBy((n) => n.path === 'alpha/gamma')?.path).toBe(
+      'alpha/gamma',
+    );
+    // Returns null when no node matches — the contract `findNodeById`
+    // in `tree-manager-adapter` relies on.
+    expect(tm.findBy((n) => n.path === 'never-present')).toBeNull();
+  });
+
+  test('getPath returns the chain root → first matching node, or null', () => {
+    const tm = new TreeManager(tree);
+    expect(tm.getPath((n) => n.path === 'alpha/gamma/delta')?.map((n) => n.path)).toEqual([
+      'alpha',
+      'alpha/gamma',
+      'alpha/gamma/delta',
+    ]);
+    // A root matches itself: path has length 1.
+    expect(tm.getPath((n) => n.path === 'alpha')?.map((n) => n.path)).toEqual([
+      'alpha',
+    ]);
+    // No match → null.
+    expect(tm.getPath((n) => n.path === 'never-present')).toBeNull();
+  });
+
+  test('TreeManager is generic over arbitrary node shapes', () => {
+    // Type check: parameterising over a domain node that does not
+    // extend `TreeNode` at all still compiles without `as unknown as
+    // ` casts. If the next package bump reverts to a non-generic
+    // implementation, this test stops compiling.
+    interface MyCategory {
+      id: string;
+      name: string;
+      children?: MyCategory[];
+    }
+    const cat: MyCategory = {
+      id: 'root',
+      name: 'Root',
+      children: [{ id: 'child', name: 'Child' }],
+    };
+    const ids: string[] = new TreeManager<MyCategory>([cat]).collectIds('id');
+    expect(ids).toEqual(['root', 'child']);
   });
 });

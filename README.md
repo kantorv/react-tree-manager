@@ -16,18 +16,40 @@ In the project directory, you can run:
 
 ## Imports: 
 
+TreeManager is class-generic over the node shape. The default `TreeNode` (the legacy `{ path, type, children? }` blob/tree shape) is exported for backward compatibility, but new code is encouraged to parameterise `TreeManager` over its own node type:
 
 ```ts
-interface TreeNode {
-    children?: TreeNode[];
-    path: string;
-    type: 'blob' | 'tree';
+import {
+  TreeManager,
+  // helpers added in 0.13.0:
+  // type TreeManagerOptions,
+  // type DefaultTreeNode,
+  type TreeNode, // legacy type, kept for compat
+} from 'react-tree-manager'
+
+// Custom domain node, parameterised over its own shape:
+type MyCategory = {
+  id: string
+  name: string
+  children?: MyCategory[]
 }
+
+const ids = new TreeManager<MyCategory>(myTree)
+  .collectIds('id', { includeRoot: true })
+//   => string[]
+
+const found = new TreeManager<MyCategory>(myTree)
+  .findBy((n) => n.id === 'abc')
+//   => MyCategory | null
+
+const path = new TreeManager<MyCategory>(myTree)
+  .getPath((n) => n.id === 'xyz')
+//   => MyCategory[] | null (chain root → matched)
 ```
 
 `TreeViewer` : React Component — MUI based expandable list. Optional props `renderLabel(node)` and `getDataTestId(node, depth)` make it usable outside `/`-path domains and with per-node test ids — see the source JSDoc for details.
 
-`TreeManager` : TS Class for tree/node management. **Only `traverse` is implemented in this release**; it walks the tree depth-first, parent before children, in declaration order. The other would-be helpers (`add`, `delete`, `move`) are intentionally stubbed — wired up but not mutating the tree. See `CHANGELOG.md` for the stability matrix.
+`TreeManager` : TS Class for tree/node management. `traverse` (DFS, parent before children, declaration order — locked-in contract since 0.12.0) plus the helpers added in 0.13.0: `toArray`, `collectIds<K>(idKey)`, `findBy(predicate)`, `getPath(predicate)`. The other would-be helpers (`add`, `delete`, `move`) are intentionally stubbed — wired up but not mutating the tree. See `CHANGELOG.md` for the stability matrix.
 
 ## Usage
 
