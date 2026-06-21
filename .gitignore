@@ -25,3 +25,5 @@ yarn-error.log*
 *storybook.log
 .vscode/
 docs/unsused_actions/
+
+publish-beta.sh
